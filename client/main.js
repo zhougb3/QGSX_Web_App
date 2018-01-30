@@ -8,4 +8,3 @@ import { renderRoutes } from '../imports/routes/routes.js';
 Meteor.startup(() => {
   render(renderRoutes(), document.getElementById('render-target'));
 });
-

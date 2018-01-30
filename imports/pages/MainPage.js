@@ -10,7 +10,7 @@ class MainPage extends Component {
   render() {
     return (
       <div className="container">
-            WOSHILIJA
+            WOSHILIJAddddddddddddddddddddddddddddddddddddddddddddd
       </div>
     );
   }

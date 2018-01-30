@@ -1,0 +1,68 @@
+User {
+    _id: Object_ID,
+    username: String,
+    password: String,
+    wechat: Object,
+    gender: String,
+    age: number,
+    articles: Array<article_id>,
+    comments: Array<comment_id>,
+    replys: Array<reply_id>,
+    questions: Array<question_id>,
+    answers: Array<answer_id>,
+    favorite_articles: Array<article_id>,
+    favorite_questions: Array<question_id>,
+    like_articles: Array<article_id>,
+    like_comments: Array<comment_id>,
+    like_questions: Array<question_id>,
+    like_answers: Arrya<answer_id>,
+}
+
+Article {
+    _id: Object_ID,
+    title: String,
+    date: Date,
+    auther: user_id,
+    content: String,
+    comment: Array<comment_id>,
+    favorite_count: number,
+    like_count: number,
+}
+
+Comment {
+    _id: Object_ID,
+    date: Date,
+    article: article_id,
+    content: string,
+    like_count: number,
+    replys: Arrya<reply_id>,
+}
+
+Reply {
+    _id: Object_ID,
+    date: Date,
+    from: user_id,
+    to: user_id,
+    content: string,
+}
+
+Question {
+    _id: Object_ID,
+    sponser: user_id,
+    title: String,
+    date: Date,
+    content: String,
+    tag: Array<String>,
+    answers: Arrya<answer_id>,
+    favorite_count: number,
+    like_count: number,
+}
+
+Answer {
+    _id: Object_ID,
+    date: Date,
+    sponser: user_id
+    question: question_id,
+    content: String,
+    replys: Arrya<reply_id>,
+}
