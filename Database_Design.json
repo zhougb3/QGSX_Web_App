@@ -1,3 +1,10 @@
+HomeSuggest: {
+    _id: Object_ID,
+    image: String,
+    route: String,
+    article: article_id,
+    question: question_id,
+}
 User {
     _id: Object_ID,
     username: String,
@@ -21,16 +28,19 @@ User {
 Article {
     _id: Object_ID,
     title: String,
+    cover_image: String,
     date: Date,
     auther: user_id,
     content: String,
     comment: Array<comment_id>,
     favorite_count: number,
     like_count: number,
+    view_count: number,
 }
 
 Comment {
     _id: Object_ID,
+    user: user_id,
     date: Date,
     article: article_id,
     content: string,
