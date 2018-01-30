@@ -5,7 +5,7 @@ import { Router, Route, Link } from 'react-router'
 export default class NavigationBar extends Component {
     render() {
         return (
-            <Navbar inverse collapseOnSelect>
+            <Navbar collapseOnSelect>
                 <Navbar.Header>
                     <Navbar.Brand>
                     <a href="#brand">勤工善学</a>

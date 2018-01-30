@@ -37,10 +37,15 @@ export default class BriefArticle extends Component {
 
     render() {
         return (
-            <div>
-                <span style={styles.title}>{this.props.title}</span>
-                <span>{this.props.date.toString()}</span>
-                <span>{this.props.content}</span>
+            <div className="container">
+                <div className="row">
+                    <span style={styles.title}>{this.props.title}</span>
+                </div>
+                <div className="row">
+                    <span>{this.props.content}</span>
+                </div>
+                <span>{this.props.date.toString().split(' ')[3]}</span>
+                
                 <span>
                     <Image src={"images/eye.png"}/>
                     {this.props.view_count}

@@ -12,10 +12,10 @@ class MainPage extends Component {
             return (
                 <Carousel.Item key={suggest._id}>
                     <a href={suggest.route}><Image src={suggest.image}responsive/></a>
-                    <Carousel.Caption>
-                        {/* <h3>First slide label</h3>
-                        <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p> */}
-                    </Carousel.Caption>
+                    {/* <Carousel.Caption>
+                        <h3>First slide label</h3>
+                        <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+                    </Carousel.Caption> */}
                 </Carousel.Item>
             )
         });
@@ -38,24 +38,31 @@ class MainPage extends Component {
     }
     render() {
         return (
-            <div>
-                {this.props.homeSuggests &&
-                    <Carousel>
-                        {this.renderCarouselItems()}
-                    </Carousel>
-                }
-                {this.props.articles && 
-                    <ListGroup>
-                        {this.renderArticleList()}
-                    </ListGroup>
-                }
+            <div className="container">
+                <div className="row">
+                    {this.props.homeSuggests &&
+                        <Carousel>
+                            {this.renderCarouselItems()}
+                        </Carousel>
+                    }
+                </div>
+                <div>
+                    {this.props.articles && 
+                        <ListGroup>
+                            {this.renderArticleList()}
+                        </ListGroup>
+                    }
+                </div>
             </div>
         )
     }
+
+   
 }
 
 export default withTracker(() => {
-    Meteor.subscribe('Article', 'HomeSuggest');
+    Meteor.subscribe('Article');
+    Meteor.subscribe('HomeSuggest');
     return {
         articles: Article.find().fetch(),
         homeSuggests: HomeSuggest.find().fetch(),

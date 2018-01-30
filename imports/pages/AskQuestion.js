@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
-import { ArticleList } from '../api/article.js';
 
 // App component - represents the whole app
 class AskQuestion extends Component {
@@ -16,10 +15,10 @@ class AskQuestion extends Component {
   }
 }
 
-export default withTracker(() => {
-  Meteor.subscribe('articleList');
+// export default withTracker(() => {
+//   Meteor.subscribe('articleList');
 
-  return {
-    articleList: ArticleList.find({}, { sort: { createdAt: -1 } }).fetch(),
-  };
-})(AskQuestion);
+//   return {
+//     articleList: ArticleList.find({}, { sort: { createdAt: -1 } }).fetch(),
+//   };
+// })(AskQuestion);
