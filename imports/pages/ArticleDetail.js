@@ -57,7 +57,7 @@ class ArticleDetail extends Component {
                         </Paper>
                         <Divider />
                         <Paper className="row">
-                            {this.renderComments()}
+                            {/* {this.renderComments()} */}
                         </Paper>
                     </div>
                 }

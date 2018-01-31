@@ -14,7 +14,7 @@ export const renderRoutes = () => (
     <Router history={browserHistory}>
         <Route path="/registerLogin" component = {RegisterLogin}/>
         <Route path="/" component={App}>
-            <IndexRoute component={MainPage} />
+            <IndexRoute component={ArticleDetail} />
             <Route path="articledetail/:id" component={ArticleDetail} />
             <Route path="*" component = {MainPage}/>
             {/* <Route path="articlePage/:id" component={ArticlePage}/>
