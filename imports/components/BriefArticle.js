@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image } from 'react-bootstrap';
+import { Image, Badge, Glyphicon } from 'react-bootstrap';
 
 export default class BriefArticle extends Component {
 
@@ -38,27 +38,33 @@ export default class BriefArticle extends Component {
     render() {
         return (
             <div className="container">
-                <div className="row">
-                    <span style={styles.title}>{this.props.title}</span>
+                <div className="col-md-3">
+                    <Image className="image-responsive" src={this.props.image_src} style={styles.coverImage}/>
                 </div>
-                <div className="row">
-                    <span>{this.props.content}</span>
+                <div className="col-md-6">
+                    <div className="row">
+                        <span style={styles.title}>{this.props.title}</span>
+                    </div>
+                    <div className="row">
+                        <span>{this.props.content}</span>
+                    </div>
+                    <div className="row">
+                        <span style={styles.statistic}>
+                            <Image src={"images/eye.png"} style={styles.icon}/>
+                            {this.props.view_count}
+                        </span>
+                        <span style={styles.statistic}> 
+                            <Image src="images/comment.png" style={styles.icon}/>
+                            {this.props.comment_count}
+                        </span>
+                        <span style={styles.statistic}>
+                            <Image src="images/like.png" style={styles.icon}/>
+                            {this.props.like_count}
+                        </span>
+                        <Badge>{this.props.date.toString().split(' ')[3]}</Badge>
+                    </div>
+                    <div className="row" style={styles.blank}/>
                 </div>
-                <span>{this.props.date.toString().split(' ')[3]}</span>
-                
-                <span>
-                    <Image src={"images/eye.png"}/>
-                    {this.props.view_count}
-                </span>
-                <span>
-                    <Image src="images/comment.png"/>
-                    {this.props.comment_count}
-                </span>
-                <span>
-                    <Image src="images/like.png"/>
-                    {this.props.like_count}
-                </span>
-                <Image src={this.props.image_src} style={styles.coverImage}/>
             </div>
         )
     }
@@ -73,5 +79,15 @@ const styles = {
     },
     coverImage: {
         width: 200,
+    },
+    icon: {
+        width: 16,
+        marginRight: 4,
+    },
+    statistic: {
+        marginRight: 16,
+    },
+    blank: {
+        height: 15,
     }
 }
