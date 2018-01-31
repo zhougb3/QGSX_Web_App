@@ -49,17 +49,17 @@ export default class RegisterForm extends Component{
     ReactDOM.findDOMNode(this.userNameinput).value = '';
     ReactDOM.findDOMNode(this.userNamePassword).value = '';
     ReactDOM.findDOMNode(this.userNameRepeatPassword).value = '';
-    
-    Accounts.createUser({username: userName, password : userPassword}, function(err){
-
+    var fun = (err)=> {
         if (err) {
+            this.setState({whetherUser:3});
             console.log(err.reason);
         } else {
             console.log("注册成功！");
         }
-    });
-    
     }
+    Accounts.createUser({username: userName, password : userPassword}, fun.bind(this));
+      
+  }
   
   render() {
     return (
@@ -81,6 +81,10 @@ export default class RegisterForm extends Component{
                               <HelpBlock>用户名需多于6个字符</HelpBlock>
                               : ''
                 }
+                {this.state.whetherUser == 3  ? 
+                              <HelpBlock>用户名已经存在</HelpBlock>
+                              : ''
+                }                
             </FormGroup>
             
             <FormGroup 

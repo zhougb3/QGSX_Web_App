@@ -57,7 +57,7 @@ const styles = {
       position: "fixed",
       top:"50%",
       left:"50%",
-      marginTop: "-250px",
+      marginTop: "-200px",
       marginLeft: "-150px",
     },
     

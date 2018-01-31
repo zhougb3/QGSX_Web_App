@@ -39,17 +39,16 @@ export default class LoginForm extends Component{
 
     ReactDOM.findDOMNode(this.userNameinput).value = '';
     ReactDOM.findDOMNode(this.passwordinput).value = '';
-
-    Meteor.loginWithPassword(userName,userPassword, function(err) {
+    var fun = (err)=> {
         if (err) {
-            //this.setState({ whether:1});
+            this.setState({ whether:1});
             console.log(err.reason);
-            //console.log(getValidationState());
         } else {
-            //this.setState({whether:2});
+            this.setState({whether:2});
             console.log("登录成功！");
         } 
-    });
+    }
+    Meteor.loginWithPassword(userName,userPassword, fun.bind(this));
     
   }
   
