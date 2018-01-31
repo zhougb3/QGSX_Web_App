@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import {FormGroup, ControlLabel, FormControl, HelpBlock,Form, Col, Checkbox, Button} from 'react-bootstrap'
-
+import {browserHistory} from 'react-router';
 export default class RegisterForm extends Component{
   constructor(props, context) {
     super(props, context);
@@ -55,6 +55,7 @@ export default class RegisterForm extends Component{
             console.log(err.reason);
         } else {
             console.log("注册成功！");
+            browserHistory.push('/');
         }
     }
     Accounts.createUser({username: userName, password : userPassword}, fun.bind(this));

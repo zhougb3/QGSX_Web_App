@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import {FormGroup, ControlLabel, FormControl, HelpBlock,Form, Col, Checkbox, Button} from 'react-bootstrap'
-
+import {browserHistory} from 'react-router';
 export default class LoginForm extends Component{
   constructor(props, context) {
     super(props, context);
@@ -46,6 +46,7 @@ export default class LoginForm extends Component{
         } else {
             this.setState({whether:2});
             console.log("登录成功！");
+            browserHistory.push('/');
         } 
     }
     Meteor.loginWithPassword(userName,userPassword, fun.bind(this));
