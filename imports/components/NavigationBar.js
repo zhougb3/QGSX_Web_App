@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Nav, Navbar, NavItem, NavDropdown, MenuItem, Image } from 'react-bootstrap';
+import { Nav, Navbar, NavItem, NavDropdown, MenuItem, Image, Form, FormGroup, Button, ControlLabel } from 'react-bootstrap';
 import { Router, Route, Link } from 'react-router'
 
 export default class NavigationBar extends Component {
@@ -14,12 +14,14 @@ export default class NavigationBar extends Component {
                 </Navbar.Header>
                 <Navbar.Collapse>
                     <Nav>
-                        <NavItem eventKey={1} href="/about">
-                            About
+                        <NavItem eventKey={1} href="/articlePage">
+                            文章
                         </NavItem>
-                        <NavItem eventKey={2} href="#">
-                        {/* <Link to="/inbox">Inbox</Link> */}
+                        <NavItem eventKey={2} href="/questionPage">
                             问答
+                        </NavItem>
+                        <NavItem eventKey={3} href="/formulaPage">
+                            公式板
                         </NavItem>
                     </Nav>
                     <Nav pullRight>

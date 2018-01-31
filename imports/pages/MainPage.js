@@ -1,12 +1,18 @@
 import React, { Component } from 'react';
 import { withTracker } from 'meteor/react-meteor-data';
-import { ListGroup, ListGroupItem, Carousel, Image, ButtonGroup, Button } from 'react-bootstrap';
-import { Link } from 'react-router';
+import { Carousel, Image, ButtonGroup, Button } from 'react-bootstrap';
 
-import { Article, HomeSuggest } from '../api/collection';
-import BriefArticle from '../components/BriefArticle';
+import { HomeSuggest, Article } from '../api/collection';
+import ArticleListContainer from '../components/ArticleListContainer';
+import ArticleList from '../components/ArticleList';
 
 class MainPage extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            sortType: {sort: {like_count: -1}},
+        };
+    }
     renderCarouselItems() {
         return this.props.homeSuggests.map((suggest) => {
             return (
@@ -20,30 +26,14 @@ class MainPage extends Component {
             )
         });
     }
-    renderArticleList() {
-        return this.props.articles.map((article) => {
-            return (
-                <ListGroupItem key={article._id}>
-                <BriefArticle 
-                    title={article.title}
-                    date={article.date}
-                    content={article.content}
-                    view_count={article.view_count}
-                    comment_count={article.comment_count}
-                    like_count={article.like_count}
-                    image_src={article.cover_image} />
-                </ListGroupItem>
-            )
-        });
-    }
     onLikeClick() {
-        sortType = { sort: { like_count: -1 } }
+        this.setState({sortType: {sort: {like_count: -1}}});
     }
     onDateClick() {
-        sortType = { sort: { date: -1 } }
+        this.setState({sortType: {sort: {date: -1}}});
     }
     onCommentClick() {
-        sortType = { sort: { comment_count: -1 } }   
+        this.setState({sortType: {sort: {comment_count: -1}}});
     }
     render() {
         return (
@@ -51,37 +41,31 @@ class MainPage extends Component {
                 <div className="row" style={styles.topBlank}/>
                 <div className="row">
                     {this.props.homeSuggests &&
-                        <Carousel>
+                        <Carousel interval={2000}>
                             {this.renderCarouselItems()}
                         </Carousel>
                     }
                 </div>
-                <div>
-                    {this.props.articles && 
-                        <ListGroup>
-                            <ListGroupItem>
-                                <ButtonGroup>
-                                    <Button style={styles.sortButton} onClick={this.onLikeClick()}>热度</Button>
-                                    <Button style={styles.sortButton} onClick={this.onDateClick()}>时间</Button>
-                                    <Button style={styles.sortButton} onClick={this.onCommentClick()}>评论</Button>
-                                </ButtonGroup>
-                            </ListGroupItem>
-                            {this.renderArticleList()}
-                        </ListGroup>
-                    }
+                <div className="row">
+                    <ButtonGroup>
+                        <Button style={styles.sortButton} onClick={this.onLikeClick.bind(this)}>Like</Button>
+                        <Button style={styles.sortButton} onClick={this.onDateClick.bind(this)}>Date</Button>
+                        <Button style={styles.sortButton} onClick={this.onCommentClick.bind(this)}>Comment</Button>
+                    </ButtonGroup>
+                </div>
+                <div className="row">
+                    <ArticleListContainer sortType={this.state.sortType}>
+                        <ArticleList />
+                    </ArticleListContainer>
                 </div>
             </div>
         )
     }
 }
 
-var sortType = { sort: { date: -1 } }
-
-export default withTracker(() => {
-    Meteor.subscribe('Article');
+export default withTracker(({id}) => {
     Meteor.subscribe('HomeSuggest');
     return {
-        articles: Article.find({}, sortType).fetch(),
         homeSuggests: HomeSuggest.find().fetch(),
     };
 })(MainPage);
