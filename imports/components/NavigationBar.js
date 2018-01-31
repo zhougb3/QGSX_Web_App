@@ -8,20 +8,20 @@ export default class NavigationBar extends Component {
             <Navbar collapseOnSelect fixedTop={true}>
                 <Navbar.Header>
                     <Navbar.Brand>
-                    <a href="#brand" style={{color: "rgb()"}}>勤工善学</a>
+                    <a href="/" style={{color: "rgb()"}}>勤工善学</a>
                     </Navbar.Brand>
                     <Navbar.Toggle />
                 </Navbar.Header>
                 <Navbar.Collapse>
                     <Nav>
-                        <NavItem eventKey={1} href="/articlePage">
-                            文章
+                        <NavItem eventKey={1} href="/">
+                            优质文章
                         </NavItem>
-                        <NavItem eventKey={2} href="/questionPage">
+                        <NavItem eventKey={2} href="/">
+                            公式黑板
+                        </NavItem>
+                        <NavItem eventKey={3} href="/">
                             问答
-                        </NavItem>
-                        <NavItem eventKey={3} href="/formulaPage">
-                            公式板
                         </NavItem>
                     </Nav>
                     <Nav pullRight>
@@ -32,6 +32,15 @@ export default class NavigationBar extends Component {
                             <MenuItem divider />
                             <MenuItem eventKey={3.3}>Separated link</MenuItem>
                         </NavDropdown>
+                        {Meteor.user() ? 
+                            <Navbar.Text>
+                                {Meteor.user().username} 
+                            </Navbar.Text>    
+                                :
+                            <NavItem eventKey={1} href="/registerLogin">
+                                登录
+                            </NavItem>      
+                        }
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
