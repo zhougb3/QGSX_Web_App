@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Image, Badge, Glyphicon } from 'react-bootstrap';
+import {browserHistory} from 'react-router';
 
 export default class BriefArticle extends Component {
 
@@ -20,6 +21,10 @@ export default class BriefArticle extends Component {
         window.removeEventListener('resize', () => this.updateSize());
     }
 
+    skip () {
+        browserHistory.push('/article/' + this.props.title);
+    }
+    
     updateSize() {
         try {
             const parentDom = ReactDOM.findDOMNode(this).parentNode;
@@ -37,7 +42,7 @@ export default class BriefArticle extends Component {
 
     render() {
         return (
-            <div className="container">
+            <div className="container" onClick={this.skip.bind(this)}>
                 <div className="col-md-3">
                     <Image className="image-responsive" src={this.props.image_src} style={styles.coverImage}/>
                 </div>

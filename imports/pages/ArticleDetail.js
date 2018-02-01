@@ -6,33 +6,111 @@ import MenuItem from 'material-ui/MenuItem';
 import Divider from 'material-ui/Divider';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
-import { Image } from 'react-bootstrap';
-import { Article, Comment } from '../api/collection';
-import { CommentBlock } from '../components/CommentBlock';
+import ReactDOM from 'react-dom';
+import { Image, Badge,Panel,Button, FormGroup,FormControl} from 'react-bootstrap';
+import { Article, Comment ,Reply} from '../api/collection';
+import CommentBlock from '../components/CommentBlock';
+import {browserHistory} from 'react-router';
+
+var Remarkable = require('remarkable');
+var hljs = require('highlight.js');
 
 class ArticleDetail extends Component {
     constructor(props) {
         super(props);
-        this.state = {open: false};
+        this.state = {
+            open: false,
+        };
+        //this.handleSubmit = this.handleSubmit.bind(this);
     }
     
     handleToggle = () => this.setState({open: !this.state.open});
 
     handleClose = () => this.setState({open: false});
     
+    addArticleLike() {
+        Meteor.call('article.addlike', this.props.article.title, this.props.article.like_count + 1);
+    }
     renderComments() {
-        return this.props.article.comment.map((comment) => {
+        return this.props.comments.map((comment) => {
             return (
-                <CommentBlock comment_id={comment}/>
+                <CommentBlock
+                    key={comment._id}
+                    comment = {comment}
+                    article = {this.props.article}
+                    currentUser = {this.props.currentUser}
+                />
             )
         });
     }
 
+    handleSubmit(e) {
+        e.preventDefault();
+        // Find the text field via the React ref
+        if (ReactDOM.findDOMNode(this.givecommentinput) != null) {
+            const replyToComment = ReactDOM.findDOMNode(this.givecommentinput).value.trim();
+            // console.log("feiwu");
+            // console.log(ReactDOM.findDOMNode(this.commentinput));
+            if (replyToComment.length == 0) {
+                console.log("youkong")
+                return;
+            }
+            ReactDOM.findDOMNode(this.givecommentinput).value = '';
+            if (!Meteor.userId()) {
+                browserHistory.push('/registerLogin');
+            } else {
+                console.log(this.props.currentUser.username);
+                Meteor.call('comment.insert', this.props.article.title, replyToComment, this.props.currentUser.username, 0,this.props.article.comment_count + 1);
+            }
+        }
+    }
+    renderGiveComment() {
+        return (
+            <Panel>
+                <Panel.Heading>
+                    <Button onClick={this.addArticleLike.bind(this)}>喜欢 | {this.props.article.like_count}</Button>
+                </Panel.Heading>
+                <Panel.Body>
+                    <form onSubmit={this.handleSubmit.bind(this)}>
+                        <FormGroup controlId="commentsubmit">
+                            <FormControl 
+                                type="text" 
+                                placeholder="发表回复" 
+                                inputRef={ref => { this.givecommentinput = ref; }}
+                            />
+                        </FormGroup>
+                        <FormGroup>
+                            <Button type="submit">发表</Button>
+                        </FormGroup>
+                    </form>
+                    <div>评论总数：{this.props.article.comment_count}</div>
+                </Panel.Body>
+            </Panel>   
+        )
+    }
+    
+    rawMarkup(){
+        var md = new Remarkable({
+          html:         false,        // Enable html tags in source
+          xhtmlOut:     false,        // Use '/' to close single tags (<br />)
+          breaks:       false,        // Convert '\n' in paragraphs into <br>
+          langPrefix:   'language-',  // CSS language prefix for fenced blocks
+          linkify:      false,        // Autoconvert url-like texts to links
+          typographer:  false,        // Enable smartypants and other sweet transforms
+          // Highlighter function. Should return escaped html,
+          // or '' if input not changed
+          highlight: function (/*str, , lang*/) { return ''; }
+        });
+        var rawMarkup = md.render(this.props.article.content);
+        return {__html:rawMarkup};
+    }
+  
     render() {
+        
         return (
             <div className="container">
                 <RaisedButton className="row"
-                    label="Open Drawer"
+                    label="打开目录"
                     onClick={this.handleToggle}
                     style={{marginTop: 100}}
                 />
@@ -52,13 +130,14 @@ class ArticleDetail extends Component {
                                 {this.props.article.title}
                             </div>
                             <div className="row">{this.props.article.description}</div>
-                            <Image className="row image-responsive" src={this.props.article.cover_image} style={{width: 800}}/>
-                            <div className="row">{this.props.article.content}</div>
+                            <Image className="row image-responsive" src={this.props.article.cover_image} style={{width: 800}} />
+                            <div className="row">
+                                <span dangerouslySetInnerHTML={this.rawMarkup()}/>
+                            </div>
                         </Paper>
                         <Divider />
-                        <Paper className="row">
-                            {/* {this.renderComments()} */}
-                        </Paper>
+                            {this.renderGiveComment()}
+                            {this.renderComments()}
                     </div>
                 }
             </div>
@@ -66,30 +145,44 @@ class ArticleDetail extends Component {
     }
 }
 
-export default withTracker(() => {
-    const ArticleHandle = Meteor.subscribe('Article');
-    const CommentHandle = Meteor.subscribe('Comment');
-    const articleLoading = !ArticleHandle.ready();
-    const commentLoading = !CommentHandle.ready();
-    articles = Article.find().fetch();
+export default withTracker(({params}) => {
+    Meteor.subscribe("OneArticle",params.name);
+    Meteor.subscribe("Comment", params.name);
+    Meteor.subscribe("Reply", params.name);
+    //const ArticleHandle = Meteor.subscribe('Article');
+    // const CommentHandle = Meteor.subscribe('Comment');
+    // const articleLoading = !ArticleHandle.ready();
+    // const commentLoading = !CommentHandle.ready();
+    // articles = Article.find().fetch();
 
-    for (i = 0; i < articles.length; i++) {
-        articles[i].commentContent = new Array();
-        console.log(articles);
-        for (j = 0; j < articles[i].comment.length; j++) {
-            console.log(Comment.find({_id: articles[i].comment[j]}).fetch());
-            articles[i].commentContent.push(Comment.find({_id: articles[i].comment[j]}).fetch());
-        }
-    }
-    // articles.map((article) => {
-    //     article.commentContent = new Array();
-    //     console.log(article.commentContent);
-    //     article.comment.map((commentID) => {
-    //         article.commentContent.push(Comment.findOne({_id: commentID}));
-    //     });
-    // });
-    if (commentLoading) console.log(articles);
+    // for (i = 0; i < articles.length; i++) {
+    //     articles[i].commentContent = new Array();
+    //     //console.log(articles);
+    //     for (j = 0; j < articles[i].comment.length; j++) {
+    //         console.log(Comment.find({_id: articles[i].comment[j]}).fetch());
+    //         articles[i].commentContent.push(Comment.find({_id: articles[i].comment[j]}).fetch());
+    //     }
+    // }
+    // // articles.map((article) => {
+    // //     article.commentContent = new Array();
+    // //     console.log(article.commentContent);
+    // //     article.comment.map((commentID) => {
+    // //         article.commentContent.push(Comment.findOne({_id: commentID}));
+    // //     });
+    // // });
+    // //if (commentLoading) console.log(articles);
+   //console.log(Reply.find({}).fetch());
+    // const Article = Article.findOne();
+    // const commentList = new Array();
+    // for (int i = 0; i < Article.comment.length; ++i) {
+    //     Comment.find({_id: articles[i].comment[j]}).fetch();
+    // }
+    
     return {
-        article: Article.findOne(),
+        //article:Article.find({title:params.name}).fetch()[0],
+        article: Article.find().fetch()[0],
+        comments:Comment.find({}, { sort: { date: -1 } }).fetch(),
+        replys:Reply.find().fetch(),
+        currentUser:Meteor.user()
     };
 })(ArticleDetail);

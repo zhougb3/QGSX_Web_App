@@ -14,15 +14,23 @@ Meteor.publish('User', function() {
 });
 
 Meteor.publish('Article', function() {
+  
     return Article.find();
 });
 
-Meteor.publish('Comment', function() {
-    return Comment.find();
+Meteor.publish('OneArticle', function(titleName) {
+  
+    return Article.find({title:titleName});
 });
 
-Meteor.publish('Reply', function() {
-    return Reply.find();
+Meteor.publish('Comment', function(titleName) {
+  
+    return Comment.find({article:titleName});
+});
+
+Meteor.publish('Reply', function(titleName) {
+  
+    return Reply.find({article:titleName});
 });
 
 Meteor.publish('Question', function() {
