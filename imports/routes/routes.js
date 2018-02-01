@@ -16,9 +16,10 @@ export const renderRoutes = () => (
     <Router history={browserHistory}>
         <Route path="/registerLogin" component = {RegisterLogin}/>
         <Route path="/" component={App}>
-            <IndexRoute component={QuestionPage} />
-            <Route path="articledetail/:id" component={ArticleDetail} />
+            <IndexRoute component={MainPage} />
+            <Route path="question" component={QuestionPage} />
             <Route path="questiondetail/:id" component={QuestionDetail} />
+            <Route path="article/:name" component={ArticleDetail} />
             <Route path="*" component = {MainPage}/>
             {/* <Route path="articlePage/:id" component={ArticlePage}/>
             <Route path="questionList" component={QuestionList}/> */}

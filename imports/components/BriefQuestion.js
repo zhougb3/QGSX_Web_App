@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
 import Paper from 'material-ui/Paper';
 import { Image } from 'react-bootstrap';
+import {browserHistory} from 'react-router';
 
 export default class BriefQuestion extends Component {
+    skip() {
+        browserHistory.push('/questiondetail/' + this.props.question._id);
+
+    }
     render() {
         return (
-            <Paper style={{marignTop: 10, marginBottom: 10}} className="container">
+            <Paper style={{marignTop: 10, marginBottom: 10}} className="container" onClick={this.skip.bind(this)}>
                 <div className="row">
                     <Image src="/images/image.png" circle style={{width: 40, height: 40}}/>
                     <span>Username</span>

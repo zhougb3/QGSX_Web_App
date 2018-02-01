@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import Paper from 'material-ui/Paper';
 import Divider from 'material-ui/Divider';
 import { Panel } from 'react-bootstrap';
-import { Reply } from '../api/collection';
+import { QuestionReply } from '../api/collection';
 import ReplyContainer, { ReplyBlock } from '../components/ReplyBlock';
 
 export class AnswerBlock extends Component {
@@ -44,13 +44,12 @@ export class AnswerBlock extends Component {
 }
 
 export default AnswerContainer = withTracker(({answer}) => {
-    const ReplyHandle = Meteor.subscribe('Reply');
+    const ReplyHandle = Meteor.subscribe('QuestionReply');
     answer.replyContent = [];
     that = answer.replyContent;
     if (ReplyHandle.ready()) {
         answer.replys.map((reply) => {
-            that.push(Reply.find({_id: new Mongo.ObjectID(reply)}).fetch()[0]);
-     
+            that.push(QuestionReply.find({_id: new Mongo.ObjectID(reply)}).fetch()[0]);
         })
     }
     return {

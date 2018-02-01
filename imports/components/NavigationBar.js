@@ -20,12 +20,12 @@ export default class NavigationBar extends Component {
                         <NavItem eventKey={2} href="/">
                             公式黑板
                         </NavItem>
-                        <NavItem eventKey={3} href="/">
+                        <NavItem eventKey={3} href="/question">
                             问答
                         </NavItem>
                     </Nav>
                     <Nav pullRight>
-                        <NavDropdown eventKey={3} title={<img src="images/image.png" width={30}/>} id="basic-nav-dropdown">
+                        <NavDropdown eventKey={3} title={<Image src="/images/image.png" width={40} circle/>} id="basic-nav-dropdown">
                             <MenuItem eventKey={3.1}>Action</MenuItem>
                             <MenuItem eventKey={3.2}>Another action</MenuItem>
                             <MenuItem eventKey={3.3}>Something else here</MenuItem>

@@ -31,7 +31,6 @@ export class ReplyBlock extends Component {
 }
 
 export default ReplyContainer = withTracker(({replys}) => {
-    
     return {
         replys: replys,
     }
