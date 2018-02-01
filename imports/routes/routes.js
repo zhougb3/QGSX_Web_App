@@ -3,7 +3,9 @@ import { Router, Route, browserHistory,IndexRoute } from 'react-router';
 import App from '../pages/App';
 import MainPage from '../pages/MainPage';
 import ArticleDetail from '../pages/ArticleDetail';
-import RegisterLogin from '../pages/RegisterLogin'
+import RegisterLogin from '../pages/RegisterLogin';
+import QuestionPage from '../pages/QuestionPage';
+import QuestionDetail from '../pages/QuestionDetail';
 // import ArticlePage from '../pages/ArticlePage.js';
 
 // import QuestionList from '../pages/QuestionList.js';
@@ -14,8 +16,9 @@ export const renderRoutes = () => (
     <Router history={browserHistory}>
         <Route path="/registerLogin" component = {RegisterLogin}/>
         <Route path="/" component={App}>
-            <IndexRoute component={ArticleDetail} />
+            <IndexRoute component={QuestionPage} />
             <Route path="articledetail/:id" component={ArticleDetail} />
+            <Route path="questiondetail/:id" component={QuestionDetail} />
             <Route path="*" component = {MainPage}/>
             {/* <Route path="articlePage/:id" component={ArticlePage}/>
             <Route path="questionList" component={QuestionList}/> */}
