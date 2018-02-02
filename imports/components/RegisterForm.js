@@ -2,19 +2,25 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import {FormGroup, ControlLabel, FormControl, HelpBlock,Form, Col, Checkbox, Button} from 'react-bootstrap'
 import {browserHistory} from 'react-router';
+import { Session } from 'meteor/session'
+
 export default class RegisterForm extends Component{
   constructor(props, context) {
     super(props, context);
 
     this.handleChange = this.handleChange.bind(this);
-
     this.state = {
       value: '',
       whetherUser:0,
       whetherPassword:0,
+      registerSession:false,
     };
   }
 
+    registerRemember() {
+        this.setState({registerSession:!this.state.registerSession});
+    }
+    
   getValidationState() {
     const length = this.state.value.length;
     if (length > 6) return 'success';
@@ -49,6 +55,7 @@ export default class RegisterForm extends Component{
     ReactDOM.findDOMNode(this.userNameinput).value = '';
     ReactDOM.findDOMNode(this.userNamePassword).value = '';
     ReactDOM.findDOMNode(this.userNameRepeatPassword).value = '';
+    
     var fun = (err)=> {
         if (err) {
             this.setState({whetherUser:3});
@@ -115,7 +122,7 @@ export default class RegisterForm extends Component{
             </FormGroup>
             
             <FormGroup>
-                <Checkbox>Remember me</Checkbox>
+                <Checkbox onClick={this.registerRemember.bind(this)}>Remember me</Checkbox>
             </FormGroup>
         
             <FormGroup>

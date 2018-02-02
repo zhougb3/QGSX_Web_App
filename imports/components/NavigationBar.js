@@ -40,7 +40,7 @@ export default class NavigationBar extends Component {
                     </Nav>
                     <Nav pullRight>
                         <NavDropdown eventKey={3} title={<Image src="/images/image.png" width={40} circle/>} id="basic-nav-dropdown">
-                            <MenuItem eventKey={3.1} href="/">我的主页</MenuItem>
+                            <MenuItem eventKey={3.1} href="/">主页</MenuItem>
                             <MenuItem eventKey={3.2} href="/">我喜欢的文章</MenuItem>
                             <MenuItem eventKey={3.3} href="/">我收藏的文章</MenuItem>
                             <MenuItem divider />
