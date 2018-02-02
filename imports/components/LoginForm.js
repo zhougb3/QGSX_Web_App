@@ -77,7 +77,7 @@ export default class LoginForm extends Component{
                 <ControlLabel>密码：</ControlLabel>
                 <FormControl 
                     type="password" 
-                    placeholder="Password" 
+                    placeholder="密码" 
                     inputRef={ref => { this.passwordinput = ref; }}
                 />
                 {this.state.whether == 1 ? 
@@ -91,7 +91,7 @@ export default class LoginForm extends Component{
             </FormGroup>
         
             <FormGroup>
-                <Button type="submit">Sign In</Button>
+                <Button type="submit">登录</Button>
             </FormGroup>
           
         </form>

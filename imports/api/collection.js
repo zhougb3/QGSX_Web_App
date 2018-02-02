@@ -75,5 +75,43 @@ Meteor.methods({
     });
     
   },
+
   
+  'answer.insert'(username,questionId,answer) {
+
+    if (! this.userId || Meteor.user().username != username) {
+      //console.log(Meteor.user().username);
+      throw new Meteor.Error('not-authorized');
+    }
+
+    Answer.insert({
+      date: new Date(),
+      sponser:username,
+      question:questionId,
+      content:answer,
+      like_count:0,
+      dislike_count:0,
+      replys:[],
+    });
+    
+  },
+  
+  'answerreply.insert'(from,to,content,answer_id, replys_count) {
+
+    if (! this.userId || Meteor.user().username != from) {
+      //console.log(Meteor.user().username);
+      throw new Meteor.Error('not-authorized');
+    }
+
+    QuestionReply.insert({
+      from:from,
+      to:to,
+      content:content,
+      date: new Date(),
+      answer:answer_id,
+    });
+    
+    Answer.update({'_id':answer_id},{$set:{'replys_count':replys_count}})
+    
+  },  
 });

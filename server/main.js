@@ -28,16 +28,20 @@ Meteor.publish('Reply', function(titleName) {
     return Reply.find({article:titleName});
 });
 
-Meteor.publish('Question', function() {
+Meteor.publish('Question', function(question_id) {
     return Question.find();
 });
 
-Meteor.publish('Answer', function() {
-    return Answer.find();
+Meteor.publish('OneQuestion', function(question_id) {
+    return Question.find({_id:question_id});
 });
 
-Meteor.publish('QuestionReply', function() {
-    return QuestionReply.find();
+Meteor.publish('Answer', function(question_id) {
+    return Answer.find({question:question_id});
+});
+
+Meteor.publish('QuestionReply', function(answer_id) {
+    return QuestionReply.find({answer:answer_id});
 });
 
 Meteor.publish('HomeSuggest', function() {

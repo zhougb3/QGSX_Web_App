@@ -94,7 +94,7 @@ export default class RegisterForm extends Component{
                 <ControlLabel>密码：</ControlLabel>
                 <FormControl 
                     type="password" 
-                    placeholder="Password"
+                    placeholder="密码"
                     inputRef={ref => { this.userNamePassword = ref; }}
                 />
             </FormGroup>
@@ -105,7 +105,7 @@ export default class RegisterForm extends Component{
                 <ControlLabel>确认密码：</ControlLabel>
                 <FormControl 
                     type="password" 
-                    placeholder="Password" 
+                    placeholder="确认密码" 
                     inputRef={ref => { this.userNameRepeatPassword = ref; }}
                 />
                 {this.state.whetherPassword == 1 ? 
@@ -119,7 +119,7 @@ export default class RegisterForm extends Component{
             </FormGroup>
         
             <FormGroup>
-                <Button type="submit">Sign Up</Button>
+                <Button type="submit">注册</Button>
             </FormGroup>
           
         </form>
