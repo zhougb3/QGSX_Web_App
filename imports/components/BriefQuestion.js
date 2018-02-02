@@ -10,27 +10,33 @@ export default class BriefQuestion extends Component {
     }
     render() {
         return (
-            <Paper style={{marignTop: 10, marginBottom: 10}} className="container" onClick={this.skip.bind(this)}>
+            <Paper style={{marignTop: 10, marginBottom: 10, paddingTop: 10, paddingBottom: 10}} className="container-fluid row col-md-12 col-xs-12" onClick={this.skip.bind(this)}>
                 <div className="row">
-                    <Image src="/images/image.png" circle style={{width: 40, height: 40}}/>
-                    <span>{this.props.question.sponser}     </span>
-                    <span>{this.props.question.date.toString().split(' ')[3]}</span>
+                    <div className="col-md-1 col-xs-2">
+                        <Image src="/images/image.png" circle style={{width: "100%"}}/>
+                    </div>
+                    <div className="col-md-11 col-xs-10 container-fluid">
+                        <span className="row">{this.props.question.sponser}</span>
+                        <span className="row">{new moment(this.props.question.date).format("YYYY-MM-DD")}</span>
+                    </div>
                 </div>
-                <span className="row">{this.props.question.title}</span>
-                <span className="row">{this.props.question.content}</span>
-                <div className="row">
-                    <span style={styles.statistic}>
-                        <Image src={"images/eye.png"} style={styles.icon}/>
-                        {this.props.question.view_count}
-                    </span>
-                    <span style={styles.statistic}> 
-                        <Image src="images/comment.png" style={styles.icon}/>
-                        {this.props.question.answer_count}
-                    </span>
-                    <span style={styles.statistic}>
-                        <Image src="images/like.png" style={styles.icon}/>
-                        {this.props.question.like_count}
-                    </span>
+                <div className="container-fluid">
+                    <span className="row" style={{fontSize: 34, marginTop: 16, marginBottom: 10}}>{this.props.question.title}</span>
+                    <span className="row" style={{fontSize: 20, color: "grey"}}>{this.props.question.content}</span>
+                    <div className="row">
+                        <span style={styles.statistic}>
+                            <Image src={"images/eye.png"} style={styles.icon}/>
+                            {this.props.question.view_count}
+                        </span>
+                        <span style={styles.statistic}> 
+                            <Image src="images/comment.png" style={styles.icon}/>
+                            {this.props.question.answer_count}
+                        </span>
+                        <span style={styles.statistic}>
+                            <Image src="images/like.png" style={styles.icon}/>
+                            {this.props.question.like_count}
+                        </span>
+                    </div>
                 </div>
             </Paper>
         )

@@ -28,7 +28,7 @@ class QuestionPage extends Component {
     renderQuestions() {
         return this.props.questions.map((question) => {
             return (
-                <BriefQuestion key={question._id} question={question} className="row"/>
+                <BriefQuestion key={question._id} question={question}/>
             )
         })
     }
@@ -36,19 +36,23 @@ class QuestionPage extends Component {
     render() {
         return (
             <div className="container">
-                <Button onClick={this.handleShow} style={{marginTop: 100}}>
-                    提问
-                </Button>
-                <div className="row container">
-                    {this.props.questions && this.renderQuestions()}
-                </div>
-                <Modal show={this.state.show} onHide={this.handleClose}>
-                    <Modal.Header closeButton>
-                    </Modal.Header >
-                    <Modal.Body>
-                        <EditQuestion />
-                    </Modal.Body>
-                </Modal>
+                {/* <div className="row"> */}
+                    <div className="col-md-1 col-xs-0"/>
+                    <div className="col-md-10 col-xs-12">
+                        <Button onClick={this.handleShow} style={{marginBottom: 20, marginLeft: 15}}>提问</Button>
+                        <div className="row container-fluid">
+                            {this.props.questions && this.renderQuestions()}
+                        </div>
+                        <Modal show={this.state.show} onHide={this.handleClose}>
+                            <Modal.Header closeButton>
+                            </Modal.Header >
+                            <Modal.Body>
+                                <EditQuestion />
+                            </Modal.Body>
+                        </Modal>
+                    </div>
+                    <div className="col-md-1 col-xs-0"/>
+                {/* </div> */}
             </div>
         );
     }
