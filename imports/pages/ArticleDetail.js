@@ -7,7 +7,7 @@ import Divider from 'material-ui/Divider';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import ReactDOM from 'react-dom';
-import { Image, Badge,Panel,Button, FormGroup,FormControl} from 'react-bootstrap';
+import { Image, Badge, Panel, Button, FormGroup, FormControl} from 'react-bootstrap';
 import { Article, Comment ,Reply} from '../api/collection';
 import CommentBlock from '../components/CommentBlock';
 import {browserHistory} from 'react-router';
@@ -34,12 +34,14 @@ class ArticleDetail extends Component {
     renderComments() {
         return this.props.comments.map((comment) => {
             return (
-                <CommentBlock
-                    key={comment._id}
-                    comment = {comment}
-                    article = {this.props.article}
-                    currentUser = {this.props.currentUser}
-                />
+                <div className="row container col-md-12 col-xs-12">
+                    <CommentBlock
+                        key={comment._id}
+                        comment = {comment}
+                        article = {this.props.article}
+                        currentUser = {this.props.currentUser}
+                    />
+                </div>
             )
         });
     }
@@ -66,26 +68,20 @@ class ArticleDetail extends Component {
     }
     renderGiveComment() {
         return (
-            <Panel>
-                <Panel.Heading>
-                    <Button onClick={this.addArticleLike.bind(this)}>喜欢 | {this.props.article.like_count}</Button>
-                </Panel.Heading>
-                <Panel.Body>
-                    <form onSubmit={this.handleSubmit.bind(this)}>
-                        <FormGroup controlId="commentsubmit">
-                            <FormControl 
-                                type="text" 
-                                placeholder="发表回复" 
-                                inputRef={ref => { this.givecommentinput = ref; }}
-                            />
-                        </FormGroup>
-                        <FormGroup>
-                            <Button type="submit">发表</Button>
-                        </FormGroup>
-                    </form>
-                    <div>评论总数：{this.props.article.comment_count}</div>
-                </Panel.Body>
-            </Panel>   
+            <div className="container-fluid">
+                <form className="row container-fluid col-md-12 col-xs-12" onSubmit={this.handleSubmit.bind(this)}>
+                    <Image className="col-md-2 col-xs-2" src="/images/image.png" circle style={{marginLeft: -15, marginRight: 15}}/>
+                    <FormGroup className="col-md-10 col-xs-10" controlId="commentsubmit">
+                        <FormControl 
+                            type="text" 
+                            placeholder="发表回复" 
+                            inputRef={ref => { this.givecommentinput = ref; }}
+                            style={{width: "100%", height: 100}}
+                        />
+                        <Button type="submit">发表</Button>
+                    </FormGroup>
+                </form>
+            </div> 
         )
     }
     
@@ -109,7 +105,7 @@ class ArticleDetail extends Component {
         
         return (
             <div className="container">
-                <RaisedButton className="row"
+                <RaisedButton
                     label="打开目录"
                     onClick={this.handleToggle}
                     style={{position: "fixed", bottom: 20, left: 20, visibility: "collapse"}}
@@ -123,23 +119,33 @@ class ArticleDetail extends Component {
                     <Divider />
                     <MenuItem onClick={this.handleClose}>Menu Item 2</MenuItem>
                 </Drawer>
+                <div className="col-md-1 col-xs-0" />
                 {this.props.article &&
-                    <div className="row">
-                        <Paper className="row container" zDepth={2}>
-                            <div className="row" >
-                                {this.props.article.title}
+                    <div className="row container-fluid col-md-10 col-xs-12">
+                        <Paper className="row container col-md-12 col-xs-12" zDepth={2} style={{marginBottom: 30}}>
+                            <div className="col-md-1 col-xs-1"/>
+                            <div className="col-md-10, col-xs-10">
+                                <div className="row text-center" style={{width: "100%", fontSize: 40, marginTop: 20, overflow: "hidden", textOverflow: "ellipsis"}}>
+                                    {this.props.article.title}
+                                </div>
+                                <h4 className="text-center"><small className="row">{this.props.article.description}</small></h4>
+                                <Image className="row image-responsive center-block" src={this.props.article.cover_image} style={{width: "100%"}} />
+                                <div className="container-fluid row">
+                                    <div className="row">
+                                        <span dangerouslySetInnerHTML={this.rawMarkup()}/>
+                                    </div>
+                                </div>
+                                <Button className="row" onClick={this.addArticleLike.bind(this)} style={{marginTop: 10, marginRight: 15}}>喜欢 | {this.props.article.like_count}</Button>
+                                <Divider />
+                                {this.renderGiveComment()}
                             </div>
-                            <div className="row">{this.props.article.description}</div>
-                            <Image className="row image-responsive center-block" src={this.props.article.cover_image} style={{width: 800}} />
-                            <div className="row">
-                                <span dangerouslySetInnerHTML={this.rawMarkup()}/>
-                            </div>
+                            <div className="col-md-1 col-xs-1"/>
                         </Paper>
-                        <Divider />
-                            {this.renderGiveComment()}
-                            {this.renderComments()}
+                        <div style={{marginBottom: 10}}>评论总数<Badge>{this.props.article.comment_count}</Badge></div>
+                        {this.renderComments()}
                     </div>
                 }
+                <div className="col-md-1 col-xs-0" />
             </div>
         );
     }
