@@ -13,6 +13,7 @@ Meteor.publish('Article', function() {
     return Article.find();
 });
 
+
 Meteor.publish('OneArticle', function(titleName) {
   
     return Article.find({title:titleName});
@@ -46,4 +47,8 @@ Meteor.publish('QuestionReply', function(answer_id) {
 
 Meteor.publish('HomeSuggest', function() {
     return HomeSuggest.find();
+});
+
+Meteor.publish('UserInformation', function(username) {
+    return User.find({username:username});
 });

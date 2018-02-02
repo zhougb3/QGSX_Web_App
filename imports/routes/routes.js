@@ -20,6 +20,8 @@ export const renderRoutes = () => (
             <Route path="question" component={QuestionPage} />
             <Route path="questiondetail/:id" component={QuestionDetail} />
             <Route path="article/:name" component={ArticleDetail} />
+            <Route path="like" component={MainPage} />
+            <Route path="store" component={MainPage} />
             <Route path="*" component = {MainPage}/>
             {/* <Route path="articlePage/:id" component={ArticlePage}/>
             <Route path="questionList" component={QuestionList}/> */}

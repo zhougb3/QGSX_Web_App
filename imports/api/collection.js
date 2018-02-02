@@ -113,5 +113,36 @@ Meteor.methods({
     
     Answer.update({'_id':answer_id},{$set:{'replys_count':replys_count}})
     
-  },  
+  },
+  
+  'user.insert'(username) {
+    User.insert({
+      username:username,
+      like_article:[],
+      store_article:[],
+      like_comment:[],
+      like_article_count:0,
+      store_article_count:0,
+      like_comment_count:0,
+    })
+  },
+  
+  'user.updatelikearticle'(username, articleId, like_count) {
+      if (! this.userId) {
+      //console.log(Meteor.user().username);
+        throw new Meteor.Error('not-authorized');
+      }
+    
+    User.update({'username':username},{ $push: { like_article: articleId }, $set:{'like_article_count':like_count} })
+  },
+
+  'user.updatelikecomment'(username, commentId, like_count) {
+      if (! this.userId) {
+      //console.log(Meteor.user().username);
+        throw new Meteor.Error('not-authorized');
+      }
+    
+    User.update({'username':username},{ $push: { like_comment: commentId }, $set:{'like_comment_count':like_count} })
+  },
+  
 });

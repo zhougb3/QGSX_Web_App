@@ -8,7 +8,7 @@ import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import ReactDOM from 'react-dom';
 import { Image, Badge,Panel,Button, FormGroup,FormControl} from 'react-bootstrap';
-import { Article, Comment ,Reply} from '../api/collection';
+import { Article, Comment ,Reply,User} from '../api/collection';
 import {browserHistory} from 'react-router';
 
 export default class CommentBlock extends Component {
@@ -35,7 +35,22 @@ export default class CommentBlock extends Component {
     }
     
         addCommentLike() {
-            Meteor.call('comment.addlike', this.props.comment._id, this.props.comment.like_count + 1);
+            if (!Meteor.user()) {
+                browserHistory.push('/registerLogin');
+            }
+            else {
+                console.log("比较是否已经点赞了该文章评论");
+                console.log(this.props.comment._id);
+                const userLikeComment = User.find().fetch()[0].like_comment;
+                const like_count = User.find().fetch()[0].like_comment_count + 1;
+                for (i = 0; i < userLikeComment.length; ++i) {
+                    console.log(userLikeComment[i]);
+                    if (userLikeComment[i].toString() == this.props.comment._id.toString())
+                        return;
+                }
+                Meteor.call('comment.addlike', this.props.comment._id, this.props.comment.like_count + 1);
+                Meteor.call('user.updatelikecomment', this.props.currentUser.username, this.props.comment._id,like_count);
+            }            
         }
         
         renderReply(commentId) {

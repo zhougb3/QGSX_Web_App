@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Image, Badge, Glyphicon } from 'react-bootstrap';
 import {browserHistory} from 'react-router';
+import { User } from '../api/collection';
 
 export default class BriefArticle extends Component {
 
@@ -41,6 +42,15 @@ export default class BriefArticle extends Component {
     }
 
     render() {
+        // if (browserHistory.getCurrentLocation().pathname == '/like' && Meteor.user()) {
+        //     Meteor.subscribe('UserInformation',Meteor.user().username);
+        //     const temp = User.find().fetch()[0].like_article;
+        //     for (i = 0; i < temp.length; ++i) {
+        //         if (temp[i].toString() == this.props._id.toString()) {
+        //             return <span/>
+        //         }
+        //     }
+        // }
         return (
             <div className="container-fluid row" onClick={this.skip.bind(this)}>
                 <div className="col-md-4 col-xs-12" style={{marginLeft: -15, marginRight: -15}}>

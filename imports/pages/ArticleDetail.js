@@ -8,7 +8,7 @@ import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import ReactDOM from 'react-dom';
 import { Image, Badge,Panel,Button, FormGroup,FormControl} from 'react-bootstrap';
-import { Article, Comment ,Reply} from '../api/collection';
+import { Article, Comment ,Reply,User} from '../api/collection';
 import CommentBlock from '../components/CommentBlock';
 import {browserHistory} from 'react-router';
 
@@ -29,7 +29,22 @@ class ArticleDetail extends Component {
     handleClose = () => this.setState({open: false});
     
     addArticleLike() {
-        Meteor.call('article.addlike', this.props.article.title, this.props.article.like_count + 1);
+        if (!Meteor.user()) {
+            browserHistory.push('/registerLogin');
+        }
+        else {
+            console.log("比较是否已经点赞了该文章");
+            console.log(this.props.article._id);
+            const userLikeArticle = User.find().fetch()[0].like_article;
+            const like_count = User.find().fetch()[0].like_article_count + 1;
+            for (i = 0; i < userLikeArticle.length; ++i) {
+                console.log(userLikeArticle[i]);
+                if (userLikeArticle[i].toString() == this.props.article._id.toString())
+                    return;
+            }
+            Meteor.call('article.addlike', this.props.article.title, this.props.article.like_count + 1);
+            Meteor.call('user.updatelikearticle', this.props.currentUser.username, this.props.article._id, like_count);
+        }
     }
     renderComments() {
         return this.props.comments.map((comment) => {
@@ -149,6 +164,8 @@ export default withTracker(({params}) => {
     Meteor.subscribe("OneArticle",params.name);
     Meteor.subscribe("Comment", params.name);
     Meteor.subscribe("Reply", params.name);
+    if (Meteor.user())
+        Meteor.subscribe("UserInformation", Meteor.user().username);
     //const ArticleHandle = Meteor.subscribe('Article');
     // const CommentHandle = Meteor.subscribe('Comment');
     // const articleLoading = !ArticleHandle.ready();
@@ -183,6 +200,6 @@ export default withTracker(({params}) => {
         article: Article.find().fetch()[0],
         comments:Comment.find({}, { sort: { date: -1 } }).fetch(),
         replys:Reply.find().fetch(),
-        currentUser:Meteor.user()
+        currentUser:Meteor.user(),
     };
 })(ArticleDetail);
