@@ -11,6 +11,7 @@ export default class App extends Component {
             <MuiThemeProvider>
                 <div>
                     <NavigationBar />
+                    <div style={{height: 80}}/>
                     {this.props.children}
                 </div>
             </MuiThemeProvider>
