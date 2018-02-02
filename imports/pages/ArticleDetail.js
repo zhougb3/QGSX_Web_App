@@ -112,7 +112,7 @@ class ArticleDetail extends Component {
                 <RaisedButton className="row"
                     label="打开目录"
                     onClick={this.handleToggle}
-                    style={{marginTop: 100}}
+                    style={{position: "fixed", bottom: 20, left: 20, visibility: "collapse"}}
                 />
                 <Drawer
                     docked={false}
@@ -126,11 +126,11 @@ class ArticleDetail extends Component {
                 {this.props.article &&
                     <div className="row">
                         <Paper className="row container" zDepth={2}>
-                            <div className="row">
+                            <div className="row" >
                                 {this.props.article.title}
                             </div>
                             <div className="row">{this.props.article.description}</div>
-                            <Image className="row image-responsive" src={this.props.article.cover_image} style={{width: 800}} />
+                            <Image className="row image-responsive center-block" src={this.props.article.cover_image} style={{width: 800}} />
                             <div className="row">
                                 <span dangerouslySetInnerHTML={this.rawMarkup()}/>
                             </div>

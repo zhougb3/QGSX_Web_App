@@ -42,18 +42,18 @@ export default class BriefArticle extends Component {
 
     render() {
         return (
-            <div className="container" onClick={this.skip.bind(this)}>
-                <div className="col-md-3">
-                    <Image className="image-responsive" src={this.props.image_src} style={styles.coverImage}/>
+            <div className="container-fluid row" onClick={this.skip.bind(this)}>
+                <div className="col-md-4 col-xs-12" style={{marginLeft: -15, marginRight: -15}}>
+                    <Image className="image-responsive center-block" src={this.props.image_src} style={styles.coverImage}/>
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-8 col-xs-12 container-fluid" style={{position: "relative", marginLeft:10, marginRight: -30, height: "100%"}}>
                     <div className="row">
                         <span style={styles.title}>{this.props.title}</span>
                     </div>
-                    <div className="row">
-                        <span>{this.props.content}</span>
+                    <div className="row" style={styles.contentBlock}>
+                        <span>{this.props.content.slice(0, 300)}</span>
                     </div>
-                    <div className="row">
+                    <div className="row" >
                         <span style={styles.statistic}>
                             <Image src={"images/eye.png"} style={styles.icon}/>
                             {this.props.view_count}
@@ -68,7 +68,6 @@ export default class BriefArticle extends Component {
                         </span>
                         <Badge>{this.props.date.toString().split(' ')[3]}</Badge>
                     </div>
-                    <div className="row" style={styles.blank}/>
                 </div>
             </div>
         )
@@ -83,7 +82,8 @@ const styles = {
         fontSize: 40,
     },
     coverImage: {
-        width: 200,
+        // marginLeft: -15,
+        width: "100%",
     },
     icon: {
         width: 16,
@@ -94,5 +94,9 @@ const styles = {
     },
     blank: {
         height: 15,
-    }
+    },
+    contentBlock: {
+        maxHeight: 150,
+        overflow: "hidden",
+    },
 }

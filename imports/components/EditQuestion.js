@@ -28,7 +28,7 @@ export default class EditQuestion extends Component {
         if (!Meteor.userId()) {
             browserHistory.push('/registerLogin');
         } else {
-        Meteor.call('question.insert', Meteor.user().username , title, description);
+            Meteor.call('question.insert', Meteor.user().username , title, description);
         }
   }
   

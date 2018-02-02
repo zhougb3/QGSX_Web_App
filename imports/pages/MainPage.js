@@ -16,7 +16,7 @@ class MainPage extends Component {
     renderCarouselItems() {
         return this.props.homeSuggests.map((suggest) => {
             return (
-                <Carousel.Item key={suggest._id}>
+                <Carousel.Item key={suggest._id} >
                     <a href={suggest.route}><Image src={suggest.image} responsive/></a>
                     {/* <Carousel.Caption>
                         <h3>First slide label</h3>
@@ -38,26 +38,30 @@ class MainPage extends Component {
     render() {
         return (
             <div className="container">
-                <div className="row" style={styles.topBlank}/>
-                <div className="row">
-                    {this.props.homeSuggests &&
-                        <Carousel interval={2000}>
-                            {this.renderCarouselItems()}
-                        </Carousel>
-                    }
+                <div className="col-md-1 col-xs-0" />
+                <div className="row col-md-10">
+                    <div>
+                        {this.props.homeSuggests &&
+                            <Carousel interval={2000} style={styles.gallery}>
+                                {this.renderCarouselItems()}
+                            </Carousel>
+                        }
+                    </div>
+                    <div className="row container">
+                        <div className="col-md-1">排序方式</div>
+                        <ButtonGroup className="col-md-4" bsSize="xsmall">
+                            <Button style={styles.sortButton} onClick={this.onLikeClick.bind(this)}>热度</Button>
+                            <Button style={styles.sortButton} onClick={this.onDateClick.bind(this)}>时间</Button>
+                            <Button style={styles.sortButton} onClick={this.onCommentClick.bind(this)}>评论</Button>
+                        </ButtonGroup>
+                    </div>
+                    <div className="row">
+                        <ArticleListContainer sortType={this.state.sortType}>
+                            <ArticleList />
+                        </ArticleListContainer>
+                    </div>
                 </div>
-                <div className="row">
-                    <ButtonGroup>
-                        <Button style={styles.sortButton} onClick={this.onLikeClick.bind(this)}>Like</Button>
-                        <Button style={styles.sortButton} onClick={this.onDateClick.bind(this)}>Date</Button>
-                        <Button style={styles.sortButton} onClick={this.onCommentClick.bind(this)}>Comment</Button>
-                    </ButtonGroup>
-                </div>
-                <div className="row">
-                    <ArticleListContainer sortType={this.state.sortType}>
-                        <ArticleList />
-                    </ArticleListContainer>
-                </div>
+                <div className="col-md-1 col-xs-0" />
             </div>
         )
     }
@@ -75,9 +79,7 @@ const styles = {
     sortButton: {
         outline: "none",
     },
-    topBlank: {
-        height: 80,
-    },
-    suggestPicture: {
+    gallery: {
+        marginBottom: 40,
     },
 }
