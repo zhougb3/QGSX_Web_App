@@ -1,8 +1,22 @@
 import React, { Component } from 'react';
 import { Nav, Navbar, NavItem, NavDropdown, MenuItem, Image, Form, FormGroup, Button, ControlLabel } from 'react-bootstrap';
 import { Router, Route, Link } from 'react-router'
+import {browserHistory} from 'react-router';
 
 export default class NavigationBar extends Component {
+    
+    handleSubmit() {
+        var fun = (err)=> {
+            if (err) {
+                console.log(err.reason);
+            } else {
+                console.log("退出成功！");
+                browserHistory.push('/');
+            } 
+        }
+        Meteor.logout(fun.bind(this));
+    }
+    
     render() {
         return (
             <Navbar collapseOnSelect fixedTop={true}>
@@ -17,7 +31,7 @@ export default class NavigationBar extends Component {
                         <NavItem eventKey={1} href="/">
                             优质文章
                         </NavItem>
-                        <NavItem eventKey={2} href="/">
+                        <NavItem eventKey={2} href="http://ctex.math.org.cn/blackboard.html">
                             公式黑板
                         </NavItem>
                         <NavItem eventKey={3} href="/question">
@@ -26,11 +40,11 @@ export default class NavigationBar extends Component {
                     </Nav>
                     <Nav pullRight>
                         <NavDropdown eventKey={3} title={<Image src="/images/image.png" width={40} circle/>} id="basic-nav-dropdown">
-                            <MenuItem eventKey={3.1}>Action</MenuItem>
-                            <MenuItem eventKey={3.2}>Another action</MenuItem>
-                            <MenuItem eventKey={3.3}>Something else here</MenuItem>
+                            <MenuItem eventKey={3.1} href="/">我的主页</MenuItem>
+                            <MenuItem eventKey={3.2} href="/">我喜欢的文章</MenuItem>
+                            <MenuItem eventKey={3.3} href="/">我收藏的文章</MenuItem>
                             <MenuItem divider />
-                            <MenuItem eventKey={3.3}>Separated link</MenuItem>
+                            <MenuItem eventKey={3.3} onClick = {this.handleSubmit.bind(this)}>退出登录</MenuItem>
                         </NavDropdown>
                         {Meteor.user() ? 
                             <Navbar.Text>
