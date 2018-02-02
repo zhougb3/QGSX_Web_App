@@ -8,14 +8,24 @@ import ArticleList from '../components/ArticleList';
 export default ArticleListContainer = withTracker(({ sortType }) => {
     const ArticlesHandle = Meteor.subscribe('Article');
     const list = Article.find({}, sortType).fetch();
-    // if (browserHistory.getCurrentLocation().pathname == '/like' && Meteor.user()) {
-    //         const userArticle = User.find().fetch();
-    //         console.log(userArticle);
+    if (browserHistory.getCurrentLocation().pathname == '/like' && Meteor.user()) {
+            const user = User.find().fetch();
+            if (user && user.length > 0) {
+                userArticle = user[0].like_article;
+                likeList = [];
+                for (var i = 0; i < list.length; ++i) {
+                    for (var j = 0; j < userArticle.length; ++j) {
+                        if (list[i]._id.toString() ==userArticle[j].toString())
+                            likeList.push(list[i]);
+                    }
+                }
+                return {
+                    articles: likeList,
+                };
+            }
 
-    // }
-    // for (var i = 0; i < list.length; ++i) {
-    //     if (list[i]._id.toString() ==)
-    // }
+    }
+
     return {
         articles: list,
     };

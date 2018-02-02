@@ -59,55 +59,59 @@ export default class CommentBlock extends Component {
         // console.log(allReply.length);
         // console.log("chihuo");
         return allReply.map((reply) => {
-            
             return (
-                <Paper className="row" key={reply._id}>
-                    <div className="row"> {reply.from}回复{reply.to} :{reply.content}</div>
-                </Paper>
+                <div className="row" key={reply._id}>
+                    <div className="col-md-10 col-xs-9" style={{marginTop: 7, marginBottom: 7}}> {reply.from}回复{reply.to} :{reply.content}</div>
+                    <Button className="col-md-2 col-xs-3" bsSize="small">回复</Button>
+                    <Divider />
+                </div>
             )
         });
     }
     
     render() {
         return (
-            <Panel key={this.props.comment._id}>
-                <Panel.Heading>
-                    <Image className="row image-responsive" src={this.props.article.cover_image} style={{width: 30}} circle/>
-                    <div className="row"> {this.props.comment.user} </div>
-                    <div className="row">{this.props.comment.date.toString()}</div>
-                </Panel.Heading>
-                <Panel.Body>
-                    <div className="row">{this.props.comment.content}</div>
-                    <div>
-                        <Button onClick={this.addCommentLike.bind(this)}>点赞数 | {this.props.comment.like_count}</Button>
-
-                    <Panel id="collapsible-panel-example-2">
-                        <Panel.Heading>
-                        <Panel.Title toggle>
-                            回复
-                        </Panel.Title>
-                        </Panel.Heading>
-                            <Panel.Collapse>
-                                <Panel.Body>
-                                    <form onSubmit={this.handleSubmit.bind(this,this.props.comment._id, this.props.comment.user, this.props.currentUser)}>
-                                        <FormGroup controlId="commentsubmit">
-                                            <FormControl 
-                                                type="text" 
-                                                placeholder="发表回复" 
-                                                inputRef={ref => { this.commentinput = ref; }}
-                                            />
-                                        </FormGroup>
-                                        <FormGroup>
-                                            <Button type="submit">发表</Button>
-                                        </FormGroup>
-                                    </form>
-                                </Panel.Body>
-                            </Panel.Collapse>
-                        </Panel>
+            <Paper key={this.props.comment._id} className="container-fluid col-md-12 col-xs-12" style={{marginBottom: 20, paddingTop: 20}}>
+                <div className="row container-fluid col-md-12 col-xs-12">
+                    <div className="col-md-1 col-xs-2" style={{marginLeft: -15}}>
+                        <Image className="image-responsive" src={this.props.article.cover_image} style={{width: "100%"}} circle/>
                     </div>
+                    <div className="col-md-11 col-xs-10 container-fluid">
+                        <div className="row">{this.props.comment.user}</div>
+                        <div className="row"><small>{new moment(this.props.comment.date).format("YYYY-MM-DD")}</small></div>
+                    </div>
+                </div>
+                <div className="row col-md-12 col-xs-12" style={{marginTop: 20, marginLeft: 20, marginBottom: 20}}>{this.props.comment.content}</div>
+                <Button onClick={this.addCommentLike.bind(this)}>点赞数 | {this.props.comment.like_count}</Button>
+                <div>
+                {/* <Panel id="collapsible-panel-example-2">
+                    <Panel.Heading>
+                    <Panel.Title toggle>
+                        回复
+                    </Panel.Title>
+                    </Panel.Heading>
+                        <Panel.Collapse>
+                            <Panel.Body>
+                                <form onSubmit={this.handleSubmit.bind(this,this.props.comment._id, this.props.comment.user, this.props.currentUser)}>
+                                    <FormGroup controlId="commentsubmit">
+                                        <FormControl 
+                                            type="text" 
+                                            placeholder="发表回复" 
+                                            inputRef={ref => { this.commentinput = ref; }}
+                                        />
+                                    </FormGroup>
+                                    <FormGroup>
+                                        <Button type="submit">发表</Button>
+                                    </FormGroup>
+                                </form>
+                            </Panel.Body>
+                        </Panel.Collapse>
+                    </Panel> */}
+                </div>
+                <div className="col-md-12 col-xs-12" style={{marginTop: 20, marginBottom: 20, paddingLeft: 10, paddingTop: 3, paddingBottom: 10, border: "2px solid #ccc", borderWidth: "0 0 0 2px"}}>
                     {this.renderReply(this.props.comment._id)}
-                </Panel.Body>
-            </Panel>
+                </div>
+            </Paper>
         )
     }
 }

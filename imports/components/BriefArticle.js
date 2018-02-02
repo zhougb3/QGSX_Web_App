@@ -61,7 +61,7 @@ export default class BriefArticle extends Component {
                         <span style={styles.title}>{this.props.title}</span>
                     </div>
                     <div className="row" style={styles.contentBlock}>
-                        <span>{this.props.content.slice(0, 300)}</span>
+                        <span>{this.props.content.slice(0, 180)}</span>
                     </div>
                     <div className="row" >
                         <span style={styles.statistic}>

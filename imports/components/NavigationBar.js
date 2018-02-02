@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { Nav, Navbar, NavItem, NavDropdown, MenuItem, Image, Form, FormGroup, Button, ControlLabel } from 'react-bootstrap';
 import { Router, Route, Link } from 'react-router'
 import {browserHistory} from 'react-router';
-export default class NavigationBar extends Component {
+import { withTracker } from 'meteor/react-meteor-data';
+
+class NavigationBar extends Component {
     
     handleSubmit() {
         var fun = (err)=> {
@@ -52,7 +54,7 @@ export default class NavigationBar extends Component {
                         </NavDropdown>
                         {Meteor.user() ? 
                             <Navbar.Text>
-                                {Meteor.user().username} 
+                                {this.props.currentUser.username} 
                             </Navbar.Text>    
                                 :
                             <NavItem eventKey={1} href="/registerLogin">
@@ -65,3 +67,12 @@ export default class NavigationBar extends Component {
         )
     }
 }
+
+export default withTracker(() => {
+    if (Meteor.user()) {
+        Meteor.subscribe('UserInformation', Meteor.user().username);
+    }
+    return {
+        currentUser: Meteor.user(),
+    };
+})(NavigationBar);
