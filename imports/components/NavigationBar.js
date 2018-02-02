@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { Nav, Navbar, NavItem, NavDropdown, MenuItem, Image, Form, FormGroup, Button, ControlLabel } from 'react-bootstrap';
 import { Router, Route, Link } from 'react-router'
 import {browserHistory} from 'react-router';
+import { withTracker } from 'meteor/react-meteor-data';
 
-export default class NavigationBar extends Component {
+class NavigationBar extends Component {
     
     handleSubmit() {
         var fun = (err)=> {
@@ -18,6 +19,11 @@ export default class NavigationBar extends Component {
     }
     
     render() {
+        
+        // if (Meteor.user()) {
+        //     Meteor.subscribe('UserInformation',Meteor.user().username);
+        // }
+        
         return (
             <Navbar collapseOnSelect fixedTop={true}>
                 <Navbar.Header>
@@ -41,14 +47,14 @@ export default class NavigationBar extends Component {
                     <Nav pullRight>
                         <NavDropdown eventKey={3} title={<Image src="/images/image.png" width={40} circle/>} id="basic-nav-dropdown">
                             <MenuItem eventKey={3.1} href="/">主页</MenuItem>
-                            <MenuItem eventKey={3.2} href="/">我喜欢的文章</MenuItem>
-                            <MenuItem eventKey={3.3} href="/">我收藏的文章</MenuItem>
+                            <MenuItem eventKey={3.2} href="/like">我喜欢的文章</MenuItem>
+                            <MenuItem eventKey={3.3} href="/store">我收藏的文章</MenuItem>
                             <MenuItem divider />
                             <MenuItem eventKey={3.3} onClick = {this.handleSubmit.bind(this)}>退出登录</MenuItem>
                         </NavDropdown>
                         {Meteor.user() ? 
                             <Navbar.Text>
-                                {Meteor.user().username} 
+                                {this.props.currentUser.username} 
                             </Navbar.Text>    
                                 :
                             <NavItem eventKey={1} href="/registerLogin">
@@ -61,3 +67,12 @@ export default class NavigationBar extends Component {
         )
     }
 }
+
+export default withTracker(() => {
+    if (Meteor.user()) {
+        Meteor.subscribe('UserInformation', Meteor.user().username);
+    }
+    return {
+        currentUser: Meteor.user(),
+    };
+})(NavigationBar);

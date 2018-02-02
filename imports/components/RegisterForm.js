@@ -62,6 +62,7 @@ export default class RegisterForm extends Component{
             console.log(err.reason);
         } else {
             console.log("注册成功！");
+            Meteor.call('user.insert', userName);
             browserHistory.push('/');
         }
     }
