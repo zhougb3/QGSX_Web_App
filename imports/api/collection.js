@@ -56,4 +56,24 @@ Meteor.methods({
     
   },
   
+  'question.insert'(sponsor, title, description) {
+
+    if (! this.userId || Meteor.user().username != sponsor) {
+      //console.log(Meteor.user().username);
+      throw new Meteor.Error('not-authorized');
+    }
+
+    Question.insert({
+      sponser:sponsor,
+      title:title,
+      date: new Date(),
+      content:description,
+      answer:[],
+      favorite_count:0,
+      like_count:0,
+      view_count:0
+    });
+    
+  },
+  
 });

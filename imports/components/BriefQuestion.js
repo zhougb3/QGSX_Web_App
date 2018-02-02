@@ -13,7 +13,7 @@ export default class BriefQuestion extends Component {
             <Paper style={{marignTop: 10, marginBottom: 10}} className="container" onClick={this.skip.bind(this)}>
                 <div className="row">
                     <Image src="/images/image.png" circle style={{width: 40, height: 40}}/>
-                    <span>Username</span>
+                    <span>{this.props.question.sponser}     </span>
                     <span>{this.props.question.date.toString().split(' ')[3]}</span>
                 </div>
                 <span className="row">{this.props.question.title}</span>

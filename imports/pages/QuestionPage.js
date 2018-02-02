@@ -48,10 +48,6 @@ class QuestionPage extends Component {
                     <Modal.Body>
                         <EditQuestion />
                     </Modal.Body>
-                    <Modal.Footer>
-                        <Button onClick={this.handleClose}>取消</Button>
-                        <Button bsStyle="primary">提交</Button>
-                    </Modal.Footer>
                 </Modal>
             </div>
         );
