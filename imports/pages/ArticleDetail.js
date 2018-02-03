@@ -46,6 +46,25 @@ class ArticleDetail extends Component {
             Meteor.call('user.updatelikearticle', this.props.currentUser.username, this.props.article._id, like_count);
         }
     }
+    addArticleStore() {
+        if (!Meteor.user()) {
+            browserHistory.push('/registerLogin');
+        }
+        else {
+            console.log("比较是否已经收藏了该文章");
+            console.log(this.props.article._id);
+            const userStoreArticle = User.find().fetch()[0].store_article;
+            const store_count = User.find().fetch()[0].store_article_count + 1;
+            for (i = 0; i < userStoreArticle.length; ++i) {
+                console.log(userStoreArticle[i]);
+                if (userStoreArticle[i].toString() == this.props.article._id.toString())
+                    return;
+            }
+            Meteor.call('article.addstore', this.props.article.title, this.props.article.favorite_count + 1);
+            Meteor.call('user.updatestorearticle', this.props.currentUser.username, this.props.article._id, store_count);
+        }
+    }
+    
     renderComments() {
         return this.props.comments.map((comment) => {
             return (
@@ -150,6 +169,7 @@ class ArticleDetail extends Component {
                                     </div>
                                 </div>
                                 <Button className="row" onClick={this.addArticleLike.bind(this)} style={{marginTop: 10, marginRight: 15}}>喜欢 | {this.props.article.like_count}</Button>
+                                <Button className="row" onClick={this.addArticleStore.bind(this)} style={{marginTop: 10, marginRight: 15}}>收藏 | {this.props.article.favorite_count}</Button>
                                 <Divider />
                                 {this.renderGiveComment()}
                             </div>

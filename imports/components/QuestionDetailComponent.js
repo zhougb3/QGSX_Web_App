@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
-import { Question, Answer } from '../api/collection';
+import { Question, Answer,User } from '../api/collection';
 import { Button, Panel, FormGroup, FormControl, Image } from 'react-bootstrap';
 import AnswerContainer, { AnswerBlock } from '../components/AnswerBlock';
 import Paper from 'material-ui/Paper';
@@ -27,6 +27,24 @@ export class TempQuestionDetail extends Component {
             console.log(Meteor.user().username);
             Meteor.call('answer.insert', Meteor.user().username,this.props.question._id,answer);
         }      
+    }
+    followQuestion() {
+        if (!Meteor.user() || !this.props.userInformation) {
+            browserHistory.push('/registerLogin');
+        }
+        else {
+            console.log("比较是否已经关注了该问题");
+            console.log(this.props.question._id);
+            const userFollowQuestion = this.props.userInformation.follow_question;
+            const follow_question_count = this.props.userInformation.follow_question_count + 1;
+            for (i = 0; i < userFollowQuestion.length; ++i) {
+                console.log(userFollowQuestion[i]);
+                if (userFollowQuestion[i].toString() == this.props.question._id.toString())
+                    return;
+            }
+            Meteor.call('question.addlike', this.props.question._id, this.props.question.like_count + 1);
+            Meteor.call('user.updatefollowquestion', Meteor.user().username, this.props.question._id, follow_question_count);
+        }        
     }
     renderAnswers() {
         return this.props.question.answerObject.map((eachAnswer) => {
@@ -57,11 +75,11 @@ export class TempQuestionDetail extends Component {
                         <div className="row" style={{fontSize: 20, marginTop: 4, marginBottom: 10, color: "grey"}}>{this.props.question.content}</div>
                         <div className="row">
                             <div className="col-md-1 col-xs-2">浏览: {this.props.question.view_count}</div>
-                            <div className="col-md-1 col-xs-2">关注: {this.props.question.favorite_count}</div>
+                            <div className="col-md-1 col-xs-2">关注: {this.props.question.like_count}</div>
                         </div>
                     </div>
                     <div className="row" style={{marginBottom: 40}}>
-                        <Button>关注问题</Button>
+                        <Button onClick={this.followQuestion.bind(this)}>关注问题</Button>
                         <Button>写回答</Button>
                     </div>
                     <div>
@@ -115,7 +133,17 @@ export default QuestionDetailContainer = withTracker(({question_id}) => {
         })
         isQuestionReady = true;
     }
+    if (Meteor.user()) {
+        const userInformation = User.find().fetch();
+        if (userInformation && userInformation.length > 0) {
+            return {
+                question: isQuestionReady ? question : [],
+                userInformation:userInformation[0],
+            }            
+        }
+    }
     return {
         question: isQuestionReady ? question : [],
+        userInformation: null,
     }
 })(TempQuestionDetail);

@@ -33,6 +33,11 @@ Meteor.methods({
   
   },
   
+  'article.addstore'(articleTitle, like_count) {
+      Article.update({'title':articleTitle},{$set:{'favorite_count':like_count}})
+  
+  },
+  
   'comment.addlike'(commentId, like_count) {
       Comment.update({'_id':commentId},{$set:{'like_count':like_count}})
   },
@@ -121,9 +126,11 @@ Meteor.methods({
       like_article:[],
       store_article:[],
       like_comment:[],
+      follow_question:[],
       like_article_count:0,
       store_article_count:0,
       like_comment_count:0,
+      follow_question_count:0,
     })
   },
   
@@ -136,6 +143,15 @@ Meteor.methods({
     User.update({'username':username},{ $push: { like_article: articleId }, $set:{'like_article_count':like_count} })
   },
 
+  'user.updatestorearticle'(username, articleId, like_count) {
+      if (! this.userId) {
+      //console.log(Meteor.user().username);
+        throw new Meteor.Error('not-authorized');
+      }
+    
+    User.update({'username':username},{ $push: { store_article: articleId }, $set:{'store_article_count':like_count} })
+  },
+  
   'user.updatelikecomment'(username, commentId, like_count) {
       if (! this.userId) {
       //console.log(Meteor.user().username);
@@ -143,6 +159,24 @@ Meteor.methods({
       }
     
     User.update({'username':username},{ $push: { like_comment: commentId }, $set:{'like_comment_count':like_count} })
+  },
+  
+  'question.addlike'(questionId, like_count) {
+      if (! this.userId) {
+      //console.log(Meteor.user().username);
+        throw new Meteor.Error('not-authorized');
+      }
+    
+    Question.update({'_id':questionId},{$set:{'like_count':like_count} })
+  },
+
+  'user.updatefollowquestion'(username, questionId, follow_question_count) {
+      if (! this.userId) {
+      //console.log(Meteor.user().username);
+        throw new Meteor.Error('not-authorized');
+      }
+    
+    User.update({'username':username},{ $push: { follow_question: questionId }, $set:{'follow_question_count':follow_question_count} })
   },
   
 });
