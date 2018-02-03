@@ -10,13 +10,15 @@ import ReactDOM from 'react-dom';
 import { Image, Badge,Panel,Button, FormGroup,FormControl} from 'react-bootstrap';
 import { Article, Comment ,Reply,User} from '../api/collection';
 import {browserHistory} from 'react-router';
+import ArticleReply from './ArticleReply.js';
 
 export default class CommentBlock extends Component {
 
     constructor(props, context) {
         super(props, context);
         this.state = {
-          open: false
+          open: false,
+          replyopen:false,
         };
     }
     
@@ -63,16 +65,15 @@ export default class CommentBlock extends Component {
         
     renderReply(commentId) {
         const allReply = Reply.find({comment: commentId}).fetch();
-        // console.log(commentId);
-        // console.log(allReply.length);
-        // console.log("chihuo");
         return allReply.map((reply) => {
             return (
-                <div className="row" key={reply._id}>
-                    <div className="col-md-10 col-xs-9" style={{marginTop: 7, marginBottom: 7}}> {reply.from}回复{reply.to} :{reply.content}</div>
-                    <Button className="col-md-2 col-xs-3" bsSize="small">回复</Button>
-                    <Divider />
-                </div>
+                <ArticleReply
+                key = {reply._id}
+                reply = {reply}
+                commentId = {commentId}
+                article = {this.props.article}
+                currentUser = {this.props.currentUser}                
+                />
             )
         });
     }

@@ -8,6 +8,7 @@ import ArticleList from '../components/ArticleList';
 export default ArticleListContainer = withTracker(({ sortType }) => {
     const ArticlesHandle = Meteor.subscribe('Article');
     const list = Article.find({}, sortType).fetch();
+    console.log("sorttype改变了");
     if (browserHistory.getCurrentLocation().pathname == '/like' && Meteor.user()) {
             const user = User.find().fetch();
             if (user && user.length > 0) {
