@@ -121,9 +121,9 @@ export class TempQuestionDetail extends Component {
                         </Panel>
                     </div>
                     {this.props.question.answerObject && this.renderAnswers()}
-                    <Paper className="row" style={{position: "fixed", bottom: 20}}>
+                    {/* <Paper className="row" style={{position: "fixed", bottom: 20}}>
                         <span>写回答</span>
-                    </Paper>
+                    </Paper> */}
                 </div>
                 <div className="col-md-1 col-xs-0"/>
             </div>

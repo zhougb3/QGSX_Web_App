@@ -53,9 +53,8 @@ export class AnswerBlock extends Component {
                 <AnswerReply
                 key = {reply._id}
                 reply = {reply}
-                //commentId = {commentId}
-                //article = {this.props.article}
-                //currentUser = {this.props.currentUser}                
+                currentUser = {this.props.currentUser}
+                answer = {this.props.answer}
                 />
             )
         });
@@ -76,6 +75,7 @@ export class AnswerBlock extends Component {
                 </div>
                 <div className="row col-md-12 col-xs-12" style={{marginTop: 20, marginLeft: 20, marginBottom: 20}}>{this.props.answer.content}</div>
                 <Button onClick={this.handleShow}>回复</Button>
+                <Button>评论量 | {this.props.answer.replys_count}</Button>
                 <Modal show={this.state.show} onHide={this.handleClose}>
                     <Modal.Header closeButton>
                     </Modal.Header >
