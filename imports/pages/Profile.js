@@ -24,7 +24,7 @@ class Profile extends Component {
                             <Image src="/images/image.png" circle style={{width: "100%"}}/>
                         </div>
                         <div className="col-md-10 col-xs-9 container-fluid">
-                            <div className="row">{this.props.currentUser && this.props.currentUser.username}</div>
+                            <div className="row" style={{fontSize: 36}}>{this.props.currentUser && this.props.currentUser.username}</div>
                             <div className="row">关注 | {""}</div>
                         </div>
                     </div>
@@ -33,7 +33,9 @@ class Profile extends Component {
                         <Row className="clearfix col-md-12 col-xs-12 container-fluid">
                             <Nav bsStyle="pills">
                                 <NavItem eventKey="first" >我的收藏</NavItem>
-                                <NavItem eventKey="second">我的赞</NavItem>
+                                <NavItem eventKey="second">我赞过的</NavItem>
+                                <NavItem eventKey="third" >我的关注</NavItem>
+                                <NavItem eventKey="fourth">我的问题</NavItem>
                             </Nav>
                             <Tab.Content animation className="col-md-12 col-xs-12 container-fluid" style={{marginLeft: -15, marginRight: -15}}>
                                 <Tab.Pane eventKey="first" className="col-md-12 col-xs-12 container-fluid" style={{marginLeft: -15, marginRight: -15}}>
@@ -41,6 +43,12 @@ class Profile extends Component {
                                 </Tab.Pane>
                                 <Tab.Pane eventKey="second"className="col-md-12 col-xs-12 container-fluid" style={{marginLeft: -15, marginRight: -15}}>
                                     <ArticleList articles={[]} />
+                                </Tab.Pane>
+                                <Tab.Pane eventKey="third"className="col-md-12 col-xs-12 container-fluid" style={{marginLeft: -15, marginRight: -15}}>
+                                    <QuestionList questions={[]} />
+                                </Tab.Pane>
+                                <Tab.Pane eventKey="fourth"className="col-md-12 col-xs-12 container-fluid" style={{marginLeft: -15, marginRight: -15}}>
+                                    <QuestionList questions={[]} />
                                 </Tab.Pane>
                             </Tab.Content>
                         </Row>

@@ -3,8 +3,8 @@ import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 import { Button, Modal } from 'react-bootstrap';
 import { Question } from '../api/collection';
-import BriefQuestion from '../components/BriefQuestion';
 import EditQuestion from '../components/EditQuestion';
+import QuestionList from '../components/QuestionList';
 
 // App component - represents the whole app
 class QuestionPage extends Component {   
@@ -25,14 +25,6 @@ class QuestionPage extends Component {
         this.setState({ show: true });
     }
 
-    renderQuestions() {
-        return this.props.questions.map((question) => {
-            return (
-                <BriefQuestion key={question._id} question={question}/>
-            )
-        })
-    }
-
     render() {
         return (
             <div className="container">
@@ -40,9 +32,7 @@ class QuestionPage extends Component {
                     <div className="col-md-1 col-xs-0"/>
                     <div className="col-md-10 col-xs-12">
                         <Button onClick={this.handleShow} style={{marginBottom: 20, marginLeft: 15}}>提问</Button>
-                        <div className="row container-fluid">
-                            {this.props.questions && this.renderQuestions()}
-                        </div>
+                        <QuestionList questions={this.props.questions} />
                         <Modal show={this.state.show} onHide={this.handleClose}>
                             <Modal.Header closeButton>
                             </Modal.Header >

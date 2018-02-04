@@ -19,9 +19,9 @@ export default class CommentBlock extends Component {
         this.handleShow = this.handleShow.bind(this);
         this.handleClose = this.handleClose.bind(this);
         this.state = {
-          open: false,
-          replyopen:false,
-          show: false,
+            open: false,
+            replyopen:false,
+            show: false,
         };
     }
     
@@ -114,7 +114,7 @@ export default class CommentBlock extends Component {
                                     placeholder="发表评论" 
                                     inputRef={ref => { this.commentinput = ref; }}
                                 />
-                                <Button type="submit">发表</Button>
+                                <Button type="submit" >发表</Button>
                             </FormGroup>
                         </form>
                     </Modal.Body>
