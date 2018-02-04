@@ -35,7 +35,12 @@ Meteor.methods({
   
   'article.addstore'(articleTitle, like_count) {
       Article.update({'title':articleTitle},{$set:{'favorite_count':like_count}})
-  
+  },
+
+  'article.addpageview'(articleTitle, view_count) {
+    console.log(view_count);
+    console.log(articleTitle);
+      Article.update({'title':articleTitle},{$set:{'view_count':view_count}})
   },
   
   'comment.addlike'(commentId, like_count) {
@@ -170,6 +175,15 @@ Meteor.methods({
     Question.update({'_id':questionId},{$set:{'like_count':like_count} })
   },
 
+  'question.addviewcount'(questionId, view_count) {
+      if (! this.userId) {
+      //console.log(Meteor.user().username);
+        throw new Meteor.Error('not-authorized');
+      }
+    
+    Question.update({'_id':questionId},{$set:{'view_count':view_count} })
+  },
+  
   'user.updatefollowquestion'(username, questionId, follow_question_count) {
       if (! this.userId) {
       //console.log(Meteor.user().username);
