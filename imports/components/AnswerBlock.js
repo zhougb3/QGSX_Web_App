@@ -24,7 +24,6 @@ export class AnswerBlock extends Component {
         // Find the text field via the React ref
         if (ReactDOM.findDOMNode(this.replyinput) != null) {
             const replyToAnswer = ReactDOM.findDOMNode(this.replyinput).value.trim();
-            console.log("feiwu");
             console.log(ReactDOM.findDOMNode(this.replyinput).value);
             if (replyToAnswer.length == 0) {
                 console.log("youkong")
@@ -76,7 +75,6 @@ export class AnswerBlock extends Component {
                     </div>
                 </div>
                 <div className="row col-md-12 col-xs-12" style={{marginTop: 20, marginLeft: 20, marginBottom: 20}}>{this.props.answer.content}</div>
-                <Button>点赞数 | </Button>{/* <Button onClick={this.addCommentLike.bind(this)}>点赞数 | {this.props.comment.like_count}</Button> */}
                 <Button onClick={this.handleShow}>回复</Button>
                 <Modal show={this.state.show} onHide={this.handleClose}>
                     <Modal.Header closeButton>

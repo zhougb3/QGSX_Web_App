@@ -62,10 +62,8 @@ export class TempQuestionDetail extends Component {
         })
     }
     componentDidMount() {
-        console.log("增加浏览量");
         if (this.props.question) {
             Meteor.call('question.addviewcount', this.props.question._id, this.props.question.view_count + 1);
-            console.log("增加了浏览量");
         }
     }    
     render() {

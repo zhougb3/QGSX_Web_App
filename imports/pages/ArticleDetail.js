@@ -25,10 +25,8 @@ class ArticleDetail extends Component {
     }
     
     componentDidMount() {
-        console.log("增加浏览量");
         if (this.props.article) {
             Meteor.call('article.addpageview', this.props.article.title, this.props.article.view_count + 1);
-            console.log("增加了浏览量");
         }
     }
     handleToggle = () => this.setState({open: !this.state.open});

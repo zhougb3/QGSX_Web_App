@@ -38,8 +38,6 @@ Meteor.methods({
   },
 
   'article.addpageview'(articleTitle, view_count) {
-    console.log(view_count);
-    console.log(articleTitle);
       Article.update({'title':articleTitle},{$set:{'view_count':view_count}})
   },
   
