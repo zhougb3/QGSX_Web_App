@@ -6,6 +6,7 @@ import ArticleDetail from '../pages/ArticleDetail';
 import RegisterLogin from '../pages/RegisterLogin';
 import QuestionPage from '../pages/QuestionPage';
 import QuestionDetail from '../pages/QuestionDetail';
+import Profile from '../pages/Profile';
 // import ArticlePage from '../pages/ArticlePage.js';
 
 // import QuestionList from '../pages/QuestionList.js';
@@ -18,6 +19,7 @@ export const renderRoutes = () => (
         <Route path="/" component={App}>
             <IndexRoute component={MainPage} />
             <Route path="question" component={QuestionPage} />
+            <Route path="profile" component={Profile} />
             <Route path="questiondetail/:id" component={QuestionDetail} />
             <Route path="article/:name" component={ArticleDetail} />
             <Route path="like" component={MainPage} />

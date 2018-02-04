@@ -57,7 +57,7 @@ export default class BriefArticle extends Component {
                     <Image className="image-responsive center-block" src={this.props.image_src} style={styles.coverImage}/>
                 </div>
                 <div className="col-md-8 col-xs-12 container-fluid" style={{position: "relative", marginLeft:10, marginRight: -30, height: "100%"}}>
-                    <div className="row">
+                    <div className="row" style={{overflow: "hidden", textOverflow: "ellipsis"}}>
                         <span style={styles.title}>{this.props.title}</span>
                     </div>
                     <div className="row" style={styles.contentBlock}>
