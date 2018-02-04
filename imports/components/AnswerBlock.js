@@ -7,6 +7,7 @@ import Divider from 'material-ui/Divider';
 import { Panel,FormGroup,FormControl,Button,Image,Modal } from 'react-bootstrap';
 import { QuestionReply } from '../api/collection';
 import ReplyContainer, { ReplyBlock} from '../components/ReplyBlock';
+import AnswerReply from '../components/AnswerReply';
 import {browserHistory} from 'react-router';
 
 export class AnswerBlock extends Component {
@@ -46,19 +47,18 @@ export class AnswerBlock extends Component {
         this.setState({ show: true });
     }
 
-    renderReply(answerId) {
-        // const allReply = Reply.find({comment: commentId}).fetch();
-        // return allReply.map((reply) => {
-        //     return (
-        //         <ArticleReply
-        //         key = {reply._id}
-        //         reply = {reply}
-        //         commentId = {commentId}
-        //         article = {this.props.article}
-        //         currentUser = {this.props.currentUser}                
-        //         />
-        //     )
-        // });
+    renderReply() {
+        return this.props.answer.replyContent.map((reply) => {
+            return (
+                <AnswerReply
+                key = {reply._id}
+                reply = {reply}
+                //commentId = {commentId}
+                //article = {this.props.article}
+                //currentUser = {this.props.currentUser}                
+                />
+            )
+        });
     }
 
     render() {
@@ -99,9 +99,10 @@ export class AnswerBlock extends Component {
                 </Modal>
                 
                 <div className="col-md-12 col-xs-12" style={{marginTop: 20, marginBottom: 20, paddingLeft: 10, paddingTop: 3, paddingBottom: 10, border: "2px solid #ccc", borderWidth: "0 0 0 2px"}}>
-                    {/* {this.renderReply(this.props.comment._id)} */}
+                    {this.renderReply()}
                 </div>
             </Paper>
+            
                 {/* <Panel defaultExpanded>
                     <Panel.Heading>
                         <Panel.Title>{this.props.answer.sponser}</Panel.Title>
