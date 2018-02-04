@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import ArticleList from '../components/ArticleList';
 import { Image, Tab, Nav, Row, Col, NavItem } from 'react-bootstrap';
+import { Article,User,Question} from '../api/collection';
 import Divider from 'material-ui/Divider';
 
 class Profile extends Component {
@@ -12,6 +13,12 @@ class Profile extends Component {
             console.log("dfdfdf");
             browserHistory.push('/RegisterLogin');
         }
+    }
+    renderstore() {
+        <ArticleList articles={likeList} />
+    }
+    renderlike() {
+        
     }
     render() {
         return (
@@ -25,7 +32,7 @@ class Profile extends Component {
                         </div>
                         <div className="col-md-10 col-xs-9 container-fluid">
                             <div className="row">{this.props.currentUser && this.props.currentUser.username}</div>
-                            <div className="row">关注 | {""}</div>
+                            <div className="row">关注 | {this.props.follow}</div>
                         </div>
                     </div>
                     <Divider className="row" style={{marginTop: 16}}/>
@@ -37,10 +44,10 @@ class Profile extends Component {
                             </Nav>
                             <Tab.Content animation className="col-md-12 col-xs-12 container-fluid" style={{marginLeft: -15, marginRight: -15}}>
                                 <Tab.Pane eventKey="first" className="col-md-12 col-xs-12 container-fluid" style={{marginLeft: -15, marginRight: -15}}>
-                                    <ArticleList articles={[]} />
+                                    <ArticleList articles={this.props.likeList} />
                                 </Tab.Pane>
                                 <Tab.Pane eventKey="second"className="col-md-12 col-xs-12 container-fluid" style={{marginLeft: -15, marginRight: -15}}>
-                                    <ArticleList articles={[]} />
+                                    <ArticleList articles={this.props.storeList} />
                                 </Tab.Pane>
                             </Tab.Content>
                         </Row>
@@ -54,7 +61,45 @@ class Profile extends Component {
 }
 
 export default withTracker(() => {
+
+    Meteor.subscribe('Article');
+    Meteor.subscribe("Question");
+
+    const articles = Article.find().fetch();
+    const questions = Question.find().fetch();
+        
+    const likeList = [];
+    const storeList=[];
+    const sponquestionlist = [];
+    const followquesionlist = [];
+    const follow = 0;    
+    if (Meteor.user() && User.find() && User.find().fetch().length > 0) {
+        const userArticle =User.find().fetch()[0].like_article;
+        const userstoreArticle =User.find().fetch()[0].store_article;
+        follow = User.find().fetch()[0].follow_question_count;
+        for (var i = 0; i < articles.length; ++i) {
+            for (var j = 0; j < userArticle.length; ++j) {
+                if (articles[i]._id.toString() ==userArticle[j].toString())
+                    likeList.push(articles[i]);
+            }
+            for (var k = 0; k < userstoreArticle.length; ++k) {
+                if (articles[i]._id.toString() ==userstoreArticle[k].toString())
+                    storeList.push(articles[i]);
+            }            
+        }
+        return {
+            currentUser: Meteor.user(),
+            likeList:likeList,
+            storeList:storeList,
+            follow:follow,
+        }
+    }
+    
     return {
         currentUser: Meteor.user(),
-    }
+        likeList:likeList,
+        storeList:storeList,
+        follow:follow,
+    }    
+        
 })(Profile);
