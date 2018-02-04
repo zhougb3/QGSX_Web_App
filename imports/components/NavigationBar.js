@@ -25,7 +25,7 @@ class NavigationBar extends Component {
         // }
         
         return (
-            <Navbar collapseOnSelect fixedTop={true}>
+            <Navbar collapseOnSelect fixedTop={true} className="container-fluid">
                 <Navbar.Header>
                     <Navbar.Brand>
                     <a href="/" style={{color: "rgb()"}}>勤工善学</a>
@@ -46,7 +46,7 @@ class NavigationBar extends Component {
                     </Nav>
                     <Nav pullRight>
                         <NavDropdown eventKey={3} title={<Image src="/images/image.png" width={40} circle/>} id="basic-nav-dropdown">
-                            <MenuItem eventKey={3.1} href="/">主页</MenuItem>
+                            <MenuItem eventKey={3.1} href="/profile">我的主页</MenuItem>
                             <MenuItem eventKey={3.2} href="/like">我赞过的文章</MenuItem>
                             <MenuItem eventKey={3.3} href="/store">我收藏的文章</MenuItem>
                             <MenuItem divider />
