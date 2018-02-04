@@ -22,26 +22,26 @@ export default class AnswerReply extends Component {
         };
     }
     
-    // handleSubmit(id, user,currentUser,e) {
-    //     e.preventDefault();
-    //     // Find the text field via the React ref
-    //     if (ReactDOM.findDOMNode(this.replycommentinput) != null) {
-    //         const replyToComment = ReactDOM.findDOMNode(this.replycommentinput).value.trim();
-    //         console.log("feiwu");
-    //         console.log(ReactDOM.findDOMNode(this.replycommentinput));
-    //         if (replyToComment.length == 0) {
-    //             console.log("youkong")
-    //             return;
-    //         }
-    //         ReactDOM.findDOMNode(this.replycommentinput).value = '';
-    //         if (!Meteor.userId()) {
-    //             browserHistory.push('/registerLogin');
-    //         } else {
-    //             console.log(currentUser.username);
-    //             Meteor.call('reply.insert', replyToComment, currentUser.username, user, this.props.article.title, id);
-    //         }
-    //     }
-    // }
+    handleSubmit(id, user,currentUser,e) {
+        e.preventDefault();
+        // Find the text field via the React ref
+        if (ReactDOM.findDOMNode(this.replyanswerinput) != null) {
+            const replyToComment = ReactDOM.findDOMNode(this.replyanswerinput).value.trim();
+            console.log("feiwu");
+            console.log(ReactDOM.findDOMNode(this.replyanswerinput));
+            if (replyToComment.length == 0) {
+                console.log("youkong")
+                return;
+            }
+            ReactDOM.findDOMNode(this.replyanswerinput).value = '';
+            if (!Meteor.userId()) {
+                browserHistory.push('/registerLogin');
+            } else {
+                console.log(currentUser.username);
+                Meteor.call('answerreply.insert', currentUser.username,user,replyToComment,id,this.props.answer.replys_count + 1);
+            }
+        }
+    }
     
     handleClose() {
         this.setState({ show: false });
@@ -60,13 +60,12 @@ export default class AnswerReply extends Component {
                     <Modal.Header closeButton>
                     </Modal.Header >
                     <Modal.Body>
-                        {/* <form onSubmit={this.handleSubmit.bind(this,this.props.commentId, this.props.reply.from, this.props.currentUser)}> */}
-                        <form>
+                        <form onSubmit={this.handleSubmit.bind(this,this.props.answer._id, this.props.reply.from, this.props.currentUser)}>
                             <FormGroup controlId="replycommentsubmit">
                                 <FormControl 
                                     type="text" 
                                     placeholder="发表评论" 
-                                    inputRef={ref => { this.replycommentinput = ref; }}
+                                    inputRef={ref => { this.replyanswerinput = ref; }}
                                 />
                                 <Button type="submit">发表</Button>
                             </FormGroup>
