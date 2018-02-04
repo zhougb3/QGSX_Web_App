@@ -6,7 +6,7 @@ import Divider from 'material-ui/Divider';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import ReactDOM from 'react-dom';
-import { Image, Badge,Panel,Button, FormGroup,FormControl} from 'react-bootstrap';
+import { Image, Badge,Panel,Button, FormGroup,FormControl,Modal} from 'react-bootstrap';
 import { Article, Comment ,Reply,User} from '../api/collection';
 import {browserHistory} from 'react-router';
 
@@ -14,8 +14,11 @@ export default class ArticleReply extends Component {
 
     constructor(props, context) {
         super(props, context);
+        this.handleShow = this.handleShow.bind(this);
+        this.handleClose = this.handleClose.bind(this);
         this.state = {
-          replyopen:false,
+            replyopen:false,
+            show: false,
         };
     }
     
@@ -40,31 +43,37 @@ export default class ArticleReply extends Component {
         }
     }
     
+    handleClose() {
+        this.setState({ show: false });
+    }
+    
+    handleShow() {
+        this.setState({ show: true });
+    }
+
     render() {
-            return (
-                <div className="row" key={this.props.reply._id}>
-                    <div className="col-md-10 col-xs-9" style={{marginTop: 7, marginBottom: 7}}> {this.props.reply.from}回复{this.props.reply.to} :{this.props.reply.content}</div>
-                    <Button className="col-md-2 col-xs-3" bsSize="small" onClick={() => this.setState({ replyopen: !this.state.replyopen })}>回复</Button>
-                    <div>
-                        <Panel expanded={this.state.replyopen} style={{visibility: this.state.replyopen ? "visible" : "collapse"}}>
-                            <Panel.Collapse>
-                                <Panel.Body>
-                                    <form onSubmit={this.handleSubmit.bind(this,this.props.commentId, this.props.reply.from, this.props.currentUser)}>
-                                        <FormGroup controlId="replycommentsubmit">
-                                            <FormControl 
-                                                type="text" 
-                                                placeholder="发表评论" 
-                                                inputRef={ref => { this.replycommentinput = ref; }}
-                                            />
-                                            <Button type="submit">发表</Button>
-                                        </FormGroup>
-                                    </form>
-                                </Panel.Body>
-                            </Panel.Collapse>
-                        </Panel>
-                    </div>                    
-                    <Divider />
-                </div>
-            )
+        return (
+            <div className="row" key={this.props.reply._id}>
+                <div className="col-md-10 col-xs-9" style={{marginTop: 7, marginBottom: 7}}> {this.props.reply.from}回复{this.props.reply.to} :{this.props.reply.content}</div>
+                <Button className="col-md-2 col-xs-3" bsSize="small" style={{}} onClick={this.handleShow}>回复</Button>
+                <Modal show={this.state.show} onHide={this.handleClose}>
+                    <Modal.Header closeButton>
+                    </Modal.Header >
+                    <Modal.Body>
+                        <form onSubmit={this.handleSubmit.bind(this,this.props.commentId, this.props.reply.from, this.props.currentUser)}>
+                            <FormGroup controlId="replycommentsubmit">
+                                <FormControl 
+                                    type="text" 
+                                    placeholder="发表评论" 
+                                    inputRef={ref => { this.replycommentinput = ref; }}
+                                />
+                                <Button type="submit">发表</Button>
+                            </FormGroup>
+                        </form>
+                    </Modal.Body>
+                </Modal>
+                <Divider />
+            </div>
+        )
     }
 }
