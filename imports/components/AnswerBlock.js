@@ -4,7 +4,7 @@ import { withTracker } from 'meteor/react-meteor-data';
 import React, { Component } from 'react';
 import Paper from 'material-ui/Paper';
 import Divider from 'material-ui/Divider';
-import { Panel,FormGroup,FormControl,Button } from 'react-bootstrap';
+import { Panel,FormGroup,FormControl,Button,Image,Modal } from 'react-bootstrap';
 import { QuestionReply } from '../api/collection';
 import ReplyContainer, { ReplyBlock} from '../components/ReplyBlock';
 import {browserHistory} from 'react-router';
@@ -12,8 +12,11 @@ import {browserHistory} from 'react-router';
 export class AnswerBlock extends Component {
     constructor(props) {
         super(props);
+        this.handleShow = this.handleShow.bind(this);
+        this.handleClose = this.handleClose.bind(this);
         this.state = {
             replyOpen: false,
+            show: false,
         }
     }
     handleSubmit(e) {
@@ -36,10 +39,72 @@ export class AnswerBlock extends Component {
             }
         }        
     }
+    handleClose() {
+        this.setState({ show: false });
+    }
+    
+    handleShow() {
+        this.setState({ show: true });
+    }
+
+    renderReply(answerId) {
+        // const allReply = Reply.find({comment: commentId}).fetch();
+        // return allReply.map((reply) => {
+        //     return (
+        //         <ArticleReply
+        //         key = {reply._id}
+        //         reply = {reply}
+        //         commentId = {commentId}
+        //         article = {this.props.article}
+        //         currentUser = {this.props.currentUser}                
+        //         />
+        //     )
+        // });
+    }
+
     render() {
         return (
             <div>
-                <Panel defaultExpanded>
+                <Paper className="container-fluid col-md-12 col-xs-12" style={{marginBottom: 20, paddingTop: 20}}>
+                <div className="row container-fluid col-md-12 col-xs-12">
+                    <div className="col-md-1 col-xs-2" style={{marginLeft: -15}}>
+                        <Image className="image-responsive" src="/images/image.png" style={{width: "100%"}} circle/>
+                    </div>
+                    <div className="col-md-11 col-xs-10 container-fluid">
+                        <div className="row">{this.props.answer.sponser}</div>
+                        <div className="row"><small>{new moment(this.props.answer.date).format("YYYY-MM-DD")}</small></div>
+                    </div>
+                </div>
+                <div className="row col-md-12 col-xs-12" style={{marginTop: 20, marginLeft: 20, marginBottom: 20}}>{this.props.answer.content}</div>
+                <Button>点赞数 | </Button>{/* <Button onClick={this.addCommentLike.bind(this)}>点赞数 | {this.props.comment.like_count}</Button> */}
+                <Button onClick={this.handleShow}>回复</Button>
+                <Modal show={this.state.show} onHide={this.handleClose}>
+                    <Modal.Header closeButton>
+                    </Modal.Header >
+                    <Modal.Body>
+                        <form onSubmit={this.handleSubmit.bind(this)}>
+                            <FormGroup
+                                controlId="formBasicText"
+                            >
+                                <FormControl
+                                    type="text"
+                                    placeholder="评论回答..."
+                                    inputRef={ref => { this.replyinput = ref; }}
+                                />
+                            </FormGroup>
+                        
+                            <FormGroup>
+                                <Button type="submit">提交</Button>
+                            </FormGroup>
+                        </form>
+                    </Modal.Body>
+                </Modal>
+                
+                <div className="col-md-12 col-xs-12" style={{marginTop: 20, marginBottom: 20, paddingLeft: 10, paddingTop: 3, paddingBottom: 10, border: "2px solid #ccc", borderWidth: "0 0 0 2px"}}>
+                    {/* {this.renderReply(this.props.comment._id)} */}
+                </div>
+            </Paper>
+                {/* <Panel defaultExpanded>
                     <Panel.Heading>
                         <Panel.Title>{this.props.answer.sponser}</Panel.Title>
                         <Panel.Toggle>展开</Panel.Toggle>
@@ -61,22 +126,7 @@ export class AnswerBlock extends Component {
                             </Panel>
                         </Panel.Body>
                     </Panel.Collapse>
-              </Panel>
-            <form onSubmit={this.handleSubmit.bind(this)}>
-                <FormGroup
-                    controlId="formBasicText"
-                >
-                    <FormControl
-                        type="text"
-                        placeholder="评论回答..."
-                        inputRef={ref => { this.replyinput = ref; }}
-                    />
-                </FormGroup>
-            
-                <FormGroup>
-                    <Button type="submit">提交</Button>
-                </FormGroup>
-            </form>                  
+              </Panel> */}                
           </div>
         )
     }

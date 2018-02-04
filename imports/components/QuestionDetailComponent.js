@@ -10,7 +10,13 @@ import Divider from 'material-ui/Divider';
 import {browserHistory} from 'react-router';
 
 export class TempQuestionDetail extends Component {
-    
+    constructor(props, context) {
+        super(props, context);
+        this.state = {
+            open: false,
+        }
+    }
+
     handleSubmit(event) {
         event.preventDefault();
     
@@ -80,31 +86,33 @@ export class TempQuestionDetail extends Component {
                     </div>
                     <div className="row" style={{marginBottom: 40}}>
                         <Button onClick={this.followQuestion.bind(this)}>关注问题</Button>
-                        <Button>写回答</Button>
+                        <Button onClick={() => this.setState({ open: !this.state.open })}>写回答</Button>
                     </div>
                     <div>
-                        <Panel>
-                            <Panel.Heading>
-                            <Panel.Title componentClass="h3">{Meteor.user() ? Meteor.user().username : "请登录后参与回答"}</Panel.Title>
-                            </Panel.Heading>
-                            <Panel.Body>
-                                <form onSubmit={this.handleSubmit.bind(this)}>
-                                    <FormGroup
-                                        controlId="formBasicText"
-                                    >
-                                        <FormControl
-                                            type="text"
-                                            placeholder="写回答..."
-                                            inputRef={ref => { this.answerinput = ref; }}
-                                        />
-                                    </FormGroup>
+                        <Panel expanded={this.state.open} style={{visibility: this.state.open ? "visible" : "collapse"}}>
+                            <Panel.Collapse>
+                                <Panel.Heading>
+                                    <Panel.Title componentClass="h3">{Meteor.user() ? Meteor.user().username : "请登录后参与回答"}</Panel.Title>
+                                </Panel.Heading>
+                                <Panel.Body>
+                                    <form onSubmit={this.handleSubmit.bind(this)}>
+                                        <FormGroup
+                                            controlId="formBasicText"
+                                        >
+                                            <FormControl
+                                                type="text"
+                                                placeholder="写回答..."
+                                                inputRef={ref => { this.answerinput = ref; }}
+                                            />
+                                        </FormGroup>
+                                    
+                                        <FormGroup>
+                                            <Button type="submit">提交</Button>
+                                        </FormGroup>
+                                    </form>                        
                                 
-                                    <FormGroup>
-                                        <Button type="submit">提交</Button>
-                                    </FormGroup>
-                                </form>                        
-                            
-                            </Panel.Body>
+                                </Panel.Body>
+                            </Panel.Collapse>
                         </Panel>
                     </div>
                     {this.props.question.answerObject && this.renderAnswers()}

@@ -7,7 +7,7 @@ import Divider from 'material-ui/Divider';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import ReactDOM from 'react-dom';
-import { Image, Badge,Panel,Button, FormGroup,FormControl} from 'react-bootstrap';
+import { Image, Badge,Panel,Button, FormGroup,FormControl,Modal} from 'react-bootstrap';
 import { Article, Comment ,Reply,User} from '../api/collection';
 import {browserHistory} from 'react-router';
 import ArticleReply from './ArticleReply.js';
@@ -16,9 +16,12 @@ export default class CommentBlock extends Component {
 
     constructor(props, context) {
         super(props, context);
+        this.handleShow = this.handleShow.bind(this);
+        this.handleClose = this.handleClose.bind(this);
         this.state = {
           open: false,
           replyopen:false,
+          show: false,
         };
     }
     
@@ -42,7 +45,14 @@ export default class CommentBlock extends Component {
             }
         }
     }
+
+    handleClose() {
+        this.setState({ show: false });
+    }
     
+    handleShow() {
+        this.setState({ show: true });
+    }
 
         addCommentLike() {
             if (!Meteor.user()) {
@@ -92,8 +102,24 @@ export default class CommentBlock extends Component {
                 </div>
                 <div className="row col-md-12 col-xs-12" style={{marginTop: 20, marginLeft: 20, marginBottom: 20}}>{this.props.comment.content}</div>
                 <Button onClick={this.addCommentLike.bind(this)}>点赞数 | {this.props.comment.like_count}</Button>
-                <Button onClick={() => this.setState({ open: !this.state.open })}>回复</Button>
-                <div>
+                <Button onClick={this.handleShow}>回复</Button>
+                <Modal show={this.state.show} onHide={this.handleClose}>
+                    <Modal.Header closeButton>
+                    </Modal.Header >
+                    <Modal.Body>
+                        <form onSubmit={this.handleSubmit.bind(this,this.props.comment._id, this.props.comment.user, this.props.currentUser)}>
+                            <FormGroup controlId="commentsubmit">
+                                <FormControl 
+                                    type="text" 
+                                    placeholder="发表评论" 
+                                    inputRef={ref => { this.commentinput = ref; }}
+                                />
+                                <Button type="submit">发表</Button>
+                            </FormGroup>
+                        </form>
+                    </Modal.Body>
+                </Modal>
+                {/* <div>
                     <Panel expanded={this.state.open} style={{visibility: this.state.open ? "visible" : "collapse"}}>
                         <Panel.Collapse>
                             <Panel.Body>
@@ -110,7 +136,7 @@ export default class CommentBlock extends Component {
                             </Panel.Body>
                         </Panel.Collapse>
                     </Panel>
-                </div>
+                </div> */}
                 <div className="col-md-12 col-xs-12" style={{marginTop: 20, marginBottom: 20, paddingLeft: 10, paddingTop: 3, paddingBottom: 10, border: "2px solid #ccc", borderWidth: "0 0 0 2px"}}>
                     {this.renderReply(this.props.comment._id)}
                 </div>
