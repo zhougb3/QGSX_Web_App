@@ -70,8 +70,8 @@ export default withTracker(() => {
         
     const likeList = [];
     const storeList=[];
-    const sponquestionlist = [];
     const followquesionlist = [];
+    const sponquestionlist = [];
     const follow = 0;    
     if (Meteor.user() && User.find() && User.find().fetch().length > 0) {
         const userArticle =User.find().fetch()[0].like_article;
@@ -87,12 +87,15 @@ export default withTracker(() => {
                     storeList.push(articles[i]);
             }            
         }
-        return {
-            currentUser: Meteor.user(),
-            likeList:likeList,
-            storeList:storeList,
-            follow:follow,
+
+        const followquestion = User.find().fetch()[0].follow_question;
+        for (var l = 0; l < questions.length; ++l) {
+            for (var m = 0; m < followquestion.length; ++m) {
+                if (questions[l]._id.toString() ==followquestion[m].toString())
+                    followquesionlist.push(questions[l]);
+            }
         }
+        sponquestionlist = Question.find({"sponser": Meteor.user().username}).fetch();
     }
     
     return {
@@ -100,6 +103,8 @@ export default withTracker(() => {
         likeList:likeList,
         storeList:storeList,
         follow:follow,
+        followquesionlist:followquesionlist,
+        sponquestionlist: sponquestionlist,        
     }    
         
 })(Profile);
