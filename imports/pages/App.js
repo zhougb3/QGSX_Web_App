@@ -24,12 +24,16 @@ export default class App extends Component {
     scrollToTop() {
         $(window).animate({scrollTop: 0}, 1000);
     }
+    createMarkup() {
+        return {__html: '<math xmlns="http://www.w3.org/1998/Math/MathML"><msqrt><msup><mn>5</mn><mn>2</mn></msup></msqrt></math>'};
+    }
     render() {
         return (
             <MuiThemeProvider>
                 <div>
                     <NavigationBar />
                     <div style={{height: 80}}/>
+                    <div dangerouslySetInnerHTML={this.createMarkup()} />
                     {this.props.children}
                     {this.state.scrollTop > 100 && <Button style={styles.backToTopButton}><a href="#" onClick={this.scrollToTop}>↑</a></Button>}
                 </div>

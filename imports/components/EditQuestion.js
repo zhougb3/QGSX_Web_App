@@ -10,7 +10,6 @@ export default class EditQuestion extends Component {
         };
     }
     
-
     handleSubmit(event) {
         event.preventDefault();
     
@@ -23,8 +22,6 @@ export default class EditQuestion extends Component {
     
         ReactDOM.findDOMNode(this.questiontitle).value = '';
         ReactDOM.findDOMNode(this.questiontdescription).value = '';
-        console.log(title);
-        console.log(description);
         if (!Meteor.userId()) {
             browserHistory.push('/registerLogin');
         } else {

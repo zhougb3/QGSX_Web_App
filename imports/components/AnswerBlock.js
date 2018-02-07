@@ -76,13 +76,13 @@ export class AnswerBlock extends Component {
                 <div className="row col-md-12 col-xs-12" style={{marginTop: 20, marginBottom: 20}}>{this.props.answer.content}</div>
                 <div className="row col-md-12 col-xs-12" style={{display: "flex", justifyContent: "flex-start", marginBottom: 20}}>
                     <div style={{marginRight: 20}}>
-                        <i class="far fa-thumbs-up"></i> {this.props.answer.like_count}
+                        <i className="far fa-thumbs-up"></i> {this.props.answer.like_count}
                     </div>
                     <div style={{marginRight: 20}}>
-                        <i class="far fa-thumbs-down"></i> {this.props.answer.dislike_count}
+                        <i className="far fa-thumbs-down"></i> {this.props.answer.dislike_count}
                     </div>
                     <div style={{marginRight: 20}}>
-                        <i class="fas fa-comments"></i> {this.props.answer.replys_count}
+                        <i className="fas fa-comments"></i> {this.props.answer.replys_count}
                     </div>
                 </div>
                 <div className="col-md-2 col-xs-6">
@@ -126,6 +126,10 @@ export default AnswerContainer = withTracker(({answer}) => {
     const ReplyHandle = Meteor.subscribe('QuestionReply',answer._id);
     answer.replyContent = [];
     allreply = QuestionReply.find().fetch();
+    // if (answer._id == 'WgRYPmqANXdBN5BHr') {
+    //     console.log("dfddfd");
+    //     console.log(allreply);
+    // }
     that = answer.replyContent;
     if (ReplyHandle.ready()) {
         allreply.map((reply) => {

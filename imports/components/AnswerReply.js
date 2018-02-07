@@ -61,11 +61,22 @@ export default class AnswerReply extends Component {
         this.setState({replyState: "hidden"});
     }
 
+    createMarkup() {
+        console.log('<div>' + this.props.reply.from + '回复' + this.props.reply.to + ': ' + this.props.reply.content + '</div>')
+        // return {__html: '<div>' + this.props.reply.from + '回复' + this.props.reply.to + ': ' + this.props.reply.content + '</div>'};
+        return {__html: '<math xmlns="http://www.w3.org/1998/Math/MathML"><msqrt><msup><mn>5</mn><mn>2</mn></msup></msqrt></math>'};
+    }
+
     render() {
+        // var parser = new DOMParser();
+        // var renderReply = parser.parseFromString('<div id="content-div">' + this.props.reply.content + '</div>', 'text/xml');
+        // console.log(renderReply.getElementById('content-div'));
         return (
             <div className="row" key={this.props.reply._id}>
                 <div className="col-md-12 col-xs-12 row" style={{marginLeft: 4}} onMouseEnter={this.handleMouseEnter.bind(this)} onMouseLeave={this.handleMouseLeave.bind(this)}>
-                    <div className="col-md-11 col-xs-10" style={{marginTop: 7, marginBottom: 7}}> {this.props.reply.from}回复{this.props.reply.to}: {this.props.reply.content}</div>
+                    {/* <div className="col-md-11 col-xs-10" style={{marginTop: 7, marginBottom: 7}}> {this.props.reply.from}回复{this.props.reply.to}: {this.props.reply.content}</div> */}
+                    <div className="col-md-11 col-xs-10" style={{marginTop: 7, marginBottom: 7}} dangerouslySetInnerHTML={this.createMarkup()}/>
+                    {/* <div dangerouslySetInnerHTML={this.createMarkup()} /> */}
                     <div className="col-md-1 col-xs-2">
                         <FlatButton label="回复" onClick={this.handleShow} style={{color: "rgb(99,175,131)", visibility: this.state.replyState}} />
                     </div>

@@ -13,7 +13,6 @@ Meteor.publish('Article', function() {
     return Article.find();
 });
 
-
 Meteor.publish('OneArticle', function(titleName) {
   
     return Article.find({title:titleName});
