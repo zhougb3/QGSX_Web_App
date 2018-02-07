@@ -73,9 +73,24 @@ export class AnswerBlock extends Component {
                         <div className="row"><small>{new moment(this.props.answer.date).format("YYYY-MM-DD")}</small></div>
                     </div>
                 </div>
-                <div className="row col-md-12 col-xs-12" style={{marginTop: 20, marginLeft: 20, marginBottom: 20}}>{this.props.answer.content}</div>
-                <Button onClick={this.handleShow}>回复</Button>
-                <Button>评论量 | {this.props.answer.replys_count}</Button>
+                <div className="row col-md-12 col-xs-12" style={{marginTop: 20, marginBottom: 20}}>{this.props.answer.content}</div>
+                <div className="row col-md-12 col-xs-12" style={{display: "flex", justifyContent: "flex-start", marginBottom: 20}}>
+                    <div style={{marginRight: 20}}>
+                        <i class="far fa-thumbs-up"></i> {this.props.answer.like_count}
+                    </div>
+                    <div style={{marginRight: 20}}>
+                        <i class="far fa-thumbs-down"></i> {this.props.answer.dislike_count}
+                    </div>
+                    <div style={{marginRight: 20}}>
+                        <i class="fas fa-comments"></i> {this.props.answer.replys_count}
+                    </div>
+                </div>
+                <div className="col-md-2 col-xs-6">
+                    <Button onClick={this.handleShow} style={{color: "rgb(99,175,131)", border: "1px solid rgb(99,175,131)", borderRadius: 10, marginRight: 10, outline: "none", width: "100%"}}>回复</Button>
+                </div>
+                {/* <div className="col-md-6 col-xs-6" style={{display: "flex", justifyContent: "flex-end"}}>
+                    <div>评论量 | {this.props.answer.replys.length}</div>
+                </div> */}
                 <Modal show={this.state.show} onHide={this.handleClose}>
                     <Modal.Header closeButton>
                     </Modal.Header >
@@ -98,34 +113,10 @@ export class AnswerBlock extends Component {
                     </Modal.Body>
                 </Modal>
                 
-                <div className="col-md-12 col-xs-12" style={{marginTop: 20, marginBottom: 20, paddingLeft: 10, paddingTop: 3, paddingBottom: 10, border: "2px solid #ccc", borderWidth: "0 0 0 2px"}}>
+                <div className="col-md-12 col-xs-12" style={{marginTop: 20, marginBottom: 20, paddingLeft: 10, paddingBottom: 10, border: "2px solid #ccc", borderWidth: "0 0 0 2px"}}>
                     {this.renderReply()}
                 </div>
-            </Paper>
-            
-                {/* <Panel defaultExpanded>
-                    <Panel.Heading>
-                        <Panel.Title>{this.props.answer.sponser}</Panel.Title>
-                        <Panel.Toggle>展开</Panel.Toggle>
-                    </Panel.Heading>
-                    <Panel.Collapse>
-                        <Panel.Body>
-                            <span className="row">{this.props.answer.content}</span>
-                            <span className="row">{new moment(this.props.answer.date).format("YYYY-MM-DD")}</span>
-                            <span onClick={() => this.setState({ replyOpen: !this.state.replyOpen })}>评论 {this.props.answer.replys_count}</span>
-                            <Divider />
-                            <Panel expanded={this.state.replyOpen}>
-                                <Panel.Collapse>
-                                    <Panel.Body>
-                                        <ReplyContainer replys={this.props.answer.replyContent}>
-                                            <ReplyBlock />
-                                        </ReplyContainer>
-                                    </Panel.Body>
-                                </Panel.Collapse>
-                            </Panel>
-                        </Panel.Body>
-                    </Panel.Collapse>
-              </Panel> */}                
+            </Paper>   
           </div>
         )
     }

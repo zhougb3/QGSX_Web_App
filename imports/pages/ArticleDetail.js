@@ -12,7 +12,8 @@ import { Article, Comment ,Reply,User} from '../api/collection';
 import CommentBlock from '../components/CommentBlock';
 import {browserHistory} from 'react-router';
 
-var Remarkable = require('remarkable');
+// var Remarkable = require('remarkable');
+import Remarkable from './remarkable';
 var hljs = require('highlight.js');
 
 class ArticleDetail extends Component {
@@ -20,10 +21,11 @@ class ArticleDetail extends Component {
         super(props);
         this.state = {
             open: false,
+            scrollTop: 0
         };
         //this.handleSubmit = this.handleSubmit.bind(this);
     }
-    
+
     componentDidMount() {
         if (this.props.article) {
             Meteor.call('article.addpageview', this.props.article.title, this.props.article.view_count + 1);

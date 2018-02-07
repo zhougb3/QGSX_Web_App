@@ -7,6 +7,7 @@ import RegisterLogin from '../pages/RegisterLogin';
 import QuestionPage from '../pages/QuestionPage';
 import QuestionDetail from '../pages/QuestionDetail';
 import Profile from '../pages/Profile';
+import FormulaPage from '../pages/FormulaPage';
 // import ArticlePage from '../pages/ArticlePage.js';
 
 // import QuestionList from '../pages/QuestionList.js';
@@ -20,6 +21,7 @@ export const renderRoutes = () => (
             <IndexRoute component={MainPage} />
             <Route path="question" component={QuestionPage} />
             <Route path="profile" component={Profile} />
+            <Route path="formula" component={FormulaPage} />
             <Route path="questiondetail/:id" component={QuestionDetail} />
             <Route path="article/:name" component={ArticleDetail} />
             <Route path="like" component={MainPage} />

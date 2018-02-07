@@ -37,7 +37,7 @@ class NavigationBar extends Component {
                         <NavItem eventKey={1} href="/">
                             优质文章
                         </NavItem>
-                        <NavItem eventKey={2} href="http://ctex.math.org.cn/blackboard.html">
+                        <NavItem eventKey={2} href="/formula">
                             公式黑板
                         </NavItem>
                         <NavItem eventKey={3} href="/question">

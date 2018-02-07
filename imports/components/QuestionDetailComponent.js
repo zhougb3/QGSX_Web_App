@@ -39,12 +39,9 @@ export class TempQuestionDetail extends Component {
             browserHistory.push('/registerLogin');
         }
         else {
-            console.log("比较是否已经关注了该问题");
-            console.log(this.props.question._id);
             const userFollowQuestion = this.props.userInformation.follow_question;
             const follow_question_count = this.props.userInformation.follow_question_count + 1;
             for (i = 0; i < userFollowQuestion.length; ++i) {
-                console.log(userFollowQuestion[i]);
                 if (userFollowQuestion[i].toString() == this.props.question._id.toString())
                     return;
             }
@@ -75,23 +72,30 @@ export class TempQuestionDetail extends Component {
                         <div className="col-md-1 col-xs-2">
                             <Image src="/images/image.png" style={{width: "100%"}} circle />
                         </div>
-                        <div className="col-md-11 col-xs-10 container-fluid">
+                        <div className="col-md-9 col-xs-7 container-fluid">
                             <div style={{fontSize: 20}}>{this.props.question.sponser}</div>
                             <div style={{fontSize: 12, color: "grey"}}>{new moment(this.props.question.date).format("YYYY-MM-DD")}</div>
                         </div>
-                    </div>
-                    <div className="row container-fluid">
-                        <div className="row" style={{fontSize: 36, marginTop: 20}}>{this.props.question.title}</div>
-                        <Divider style={{marginLeft: -15, marginRight: -15}}/>
-                        <div className="row" style={{fontSize: 20, marginTop: 4, marginBottom: 10, color: "grey"}}>{this.props.question.content}</div>
-                        <div className="row">
-                            <div className="col-md-1 col-xs-2">浏览: {this.props.question.view_count}</div>
-                            <div className="col-md-1 col-xs-2">关注: {this.props.question.like_count}</div>
+                        <div className="row col-md-2 col-xs-3" style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+                            <div className="col-md-12 col-xs-12">
+                                <div className="row" style={{display: "flex", justifyContent: "center", alignItems: "center"}}>浏览</div>
+                                <div className="row" style={{display: "flex", justifyContent: "center", alignItems: "center"}}>{this.props.question.view_count}</div>
+                            </div>
+                            <div style={{width: 1, height: 40,  border: "1px solid #ccc"}} />
+                            <div className="col-md-12 col-xs-12">
+                                <div className="row" style={{display: "flex", justifyContent: "center", alignItems: "center"}}>关注</div>
+                                <div className="row" style={{display: "flex", justifyContent: "center", alignItems: "center"}}>{this.props.question.like_count}</div>
+                            </div>
                         </div>
                     </div>
-                    <div className="row" style={{marginBottom: 40}}>
-                        <Button onClick={this.followQuestion.bind(this)}>关注问题</Button>
-                        <Button onClick={() => this.setState({ open: !this.state.open })}>写回答</Button>
+                    <div className="row container-fluid">
+                        <div className="row" style={{fontSize: 28, marginTop: 20, marginLeft: -15, marginRight: -15}}>{this.props.question.title}</div>
+                        <Divider style={{marginLeft: -15, marginRight: -15}}/>
+                        <div className="row" style={{fontSize: 16, marginTop: 10, marginBottom: 10, marginLeft: -15, marginRight: -15, color: "grey"}}>{this.props.question.content}</div>
+                    </div>
+                    <div className="row" style={{marginBottom: 20, marginTop: 20}}>
+                        <Button onClick={this.followQuestion.bind(this)} style={{backgroundColor: "rgb(99,175,131)", color: "white", border: "none", borderRadius: 10, marginRight: 10, outline: "none"}}>关注问题</Button>
+                        <Button onClick={() => this.setState({ open: !this.state.open })} style={{color: "rgb(99,175,131)", border: "1px solid rgb(99,175,131)", borderRadius: 10, outline: "none"}}>写回答</Button>
                     </div>
                     <div>
                         <Panel expanded={this.state.open} style={{visibility: this.state.open ? "visible" : "collapse"}}>
@@ -142,7 +146,7 @@ export default QuestionDetailContainer = withTracker(({question_id}) => {
         question.answerObject = [];
         that = this;
         allAnswer.map((eachAnswer) => {
-                that.question.answerObject.push(eachAnswer);
+            that.question.answerObject.push(eachAnswer);
         })
         isQuestionReady = true;
     }

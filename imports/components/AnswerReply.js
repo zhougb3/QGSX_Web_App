@@ -5,6 +5,7 @@ import MenuItem from 'material-ui/MenuItem';
 import Divider from 'material-ui/Divider';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';
 import ReactDOM from 'react-dom';
 import { Image, Badge,Panel,Button, FormGroup,FormControl,Modal} from 'react-bootstrap';
 import { Article, Comment ,Reply,User} from '../api/collection';
@@ -17,7 +18,8 @@ export default class AnswerReply extends Component {
         this.handleShow = this.handleShow.bind(this);
         this.handleClose = this.handleClose.bind(this);
         this.state = {
-            replyopen:false,
+            replyopen: false,
+            replyState: "hidden",
             show: false,
         };
     }
@@ -51,11 +53,23 @@ export default class AnswerReply extends Component {
         this.setState({ show: true });
     }
 
+    handleMouseEnter() {
+        this.setState({replyState: "visible"});
+    }
+
+    handleMouseLeave() {
+        this.setState({replyState: "hidden"});
+    }
+
     render() {
         return (
             <div className="row" key={this.props.reply._id}>
-                <div className="col-md-10 col-xs-9" style={{marginTop: 7, marginBottom: 7}}> {this.props.reply.from}回复{this.props.reply.to} :{this.props.reply.content}</div>
-                <Button className="col-md-2 col-xs-3" bsSize="small" style={{}} onClick={this.handleShow}>回复</Button>
+                <div className="col-md-12 col-xs-12 row" style={{marginLeft: 4}} onMouseEnter={this.handleMouseEnter.bind(this)} onMouseLeave={this.handleMouseLeave.bind(this)}>
+                    <div className="col-md-11 col-xs-10" style={{marginTop: 7, marginBottom: 7}}> {this.props.reply.from}回复{this.props.reply.to}: {this.props.reply.content}</div>
+                    <div className="col-md-1 col-xs-2">
+                        <FlatButton label="回复" onClick={this.handleShow} style={{color: "rgb(99,175,131)", visibility: this.state.replyState}} />
+                    </div>
+                </div>
                 <Modal show={this.state.show} onHide={this.handleClose}>
                     <Modal.Header closeButton>
                     </Modal.Header >
@@ -72,7 +86,7 @@ export default class AnswerReply extends Component {
                         </form>
                     </Modal.Body>
                 </Modal>
-                <Divider />
+                <Divider className="col-md-12 col-xs-12 row"/>
             </div>
         )
     }
