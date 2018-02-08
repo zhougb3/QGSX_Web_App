@@ -11,10 +11,7 @@ import { Image, Badge,Panel,Button, FormGroup, FormControl} from 'react-bootstra
 import { Article, Comment ,Reply,User} from '../api/collection';
 import CommentBlock from '../components/CommentBlock';
 import {browserHistory} from 'react-router';
-
-// var Remarkable = require('remarkable');
-import Remarkable from './remarkable';
-var hljs = require('highlight.js');
+import MarkdownBlock from '../components/MarkdownBlock';
 
 class ArticleDetail extends Component {
     constructor(props) {
@@ -124,22 +121,6 @@ class ArticleDetail extends Component {
             </div> 
         )
     }
-    
-    rawMarkup(){
-        var md = new Remarkable({
-          html:         false,        // Enable html tags in source
-          xhtmlOut:     false,        // Use '/' to close single tags (<br />)
-          breaks:       false,        // Convert '\n' in paragraphs into <br>
-          langPrefix:   'language-',  // CSS language prefix for fenced blocks
-          linkify:      false,        // Autoconvert url-like texts to links
-          typographer:  false,        // Enable smartypants and other sweet transforms
-          // Highlighter function. Should return escaped html,
-          // or '' if input not changed
-          highlight: function (/*str, , lang*/) { return ''; }
-        });
-        var rawMarkup = md.render(this.props.article.content);
-        return {__html:rawMarkup};
-    }
   
     render() {
         return (
@@ -171,7 +152,7 @@ class ArticleDetail extends Component {
                                 <Image className="row image-responsive center-block" src={this.props.article.cover_image} style={{width: "100%"}} />
                                 <div className="container-fluid row">
                                     <div className="row">
-                                        <span dangerouslySetInnerHTML={this.rawMarkup()}/>
+                                        <MarkdownBlock content={this.props.article.content} />
                                     </div>
                                 </div>
                                 <Button className="row" onClick={this.addArticleLike.bind(this)} style={{marginTop: 10, marginRight: 15}}>喜欢 | {this.props.article.like_count}</Button>

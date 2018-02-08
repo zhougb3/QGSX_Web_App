@@ -15,8 +15,10 @@
     "react": "^16.2.0",
     "react-bootstrap": "^0.32.1",
     "react-dom": "^16.2.0",
+    "react-latex": "^1.1.0",
     "react-meteor-data": "^0.2.11",
     "react-router": "^3.2.0",
-    "remarkable": "^1.7.1"
+    "remarkable": "^1.7.1",
+    "remarkable-katex": "^1.0.1"
   }
 }

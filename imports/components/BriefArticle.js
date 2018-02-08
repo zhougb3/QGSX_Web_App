@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Image, Badge, Glyphicon } from 'react-bootstrap';
 import {browserHistory} from 'react-router';
 import { User } from '../api/collection';
+import MarkdownBlock from '../components/MarkdownBlock';
+
 
 export default class BriefArticle extends Component {
 
@@ -61,7 +63,7 @@ export default class BriefArticle extends Component {
                         <span style={styles.title}>{this.props.title}</span>
                     </div>
                     <div className="row" style={styles.contentBlock}>
-                        <span>{this.props.content.slice(0, 180)}</span>
+                        <MarkdownBlock content={this.props.content.slice(0, 180)} />
                     </div>
                     <div className="row" >
                         <span style={styles.statistic}>
